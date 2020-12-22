@@ -78,6 +78,20 @@ namespace HicadCommunity
 		public static List<Facet> GetFacets(this Node n) => ((Part)n).Facets;
 
 		/// <summary>
+		/// Get the material name of the part
+		/// </summary>
+		/// <param name="n">Node to get the material name from</param>
+		/// <returns></returns>
+		public static string GetMaterialName(this Node n) => n.AttributeSet.GetValue<string>("$07");
+
+		/// <summary>
+		/// Get the material size of the part
+		/// </summary>
+		/// <param name="n">Node to get the material size from</param>
+		/// <returns></returns>
+		public static double GetMaterialSize(this Node n) => n.AttributeSet.GetValue<double>("§04");
+
+		/// <summary>
 		/// Import a STP/STEP file into the provided scene
 		/// </summary>
 		/// <param name="scene">The scane where the object needs to imported in</param>
