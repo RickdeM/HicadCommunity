@@ -25,6 +25,7 @@ using ISD.Scripting;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace HicadCommunity
@@ -37,11 +38,55 @@ namespace HicadCommunity
 		private static UnconstrainedContext Context => ScriptBase.BaseContext as UnconstrainedContext;
 
 		/// <summary>
+		/// Activate the Scene slot using UpdatePartReference
+		/// </summary>
+		/// <param name="slot">SceneSlot to be activated</param>
+		/// <param name="update">How to handle the updating of external referenced parts</param>
+		/// <returns></returns>
+		public static SceneSlot Activate(this SceneSlot slot, UpdatePartReferences update)
+		{
+			// Activate the scene
+			slot.Scene.Activate(update);
+			// Return the provided SceneSlot
+			return slot;
+		}
+
+		/// <summary>
+		/// Activate the Scene slot using UpdatePartReference
+		/// </summary>
+		/// <param name="scene">Scene to be activated</param>
+		/// <param name="update">How to handle the updating of external referenced parts</param>
+		/// <returns></returns>
+		public static Scene Activate(this Scene scene, UpdatePartReferences update)
+		{
+			// Load user preferences
+			UpdatePartReferences tmpSave = Context.Configuration.Settings.UpdatePartReferences;
+			try
+			{
+				// Override Reference settings
+				Context.Configuration.Settings.UpdatePartReferences = update;
+				// Actually load the drawing
+				scene.Activate();
+			}
+			catch (Exception ex)
+			{
+				FileLogger.Log(ex);
+			}
+			finally
+			{
+				// Reset Reference settings
+				Context.Configuration.Settings.UpdatePartReferences = tmpSave;
+			}
+			// Return the provided Scene
+			return scene;
+		}
+
+		/// <summary>
 		/// Close all opened drawings
 		/// </summary>
 		/// <param name="context">Context which contains all Scenes</param>
 		/// <param name="saveDrawings">Save the drawings before closing it</param>
-		/// <param name="savePartReference">How to handle the saving of external referenced files</param>
+		/// <param name="savePartReference">How to handle the saving of external referenced parts</param>
 		public static void CloseAllDrawings(
 			this UnconstrainedContext context,
 			bool saveDrawings = true,
@@ -312,6 +357,86 @@ namespace HicadCommunity
 		}
 
 		/// <summary>
+		/// Open a new SceneSlot, or load a drawing in a new slot
+		/// </summary>
+		/// <param name="context">Context which contains the SceneSlots</param>
+		/// <param name="sceneName">FileName to open/create</param>
+		/// <param name="readOnly">When opening existing document, open in readonly mode</param>
+		/// <param name="update">How to handle the updating of external referenced parts</param>
+		/// <returns></returns>
+		public static Scene OpenNewSlot(this UnconstrainedContext context, string sceneName, bool readOnly = false, UpdatePartReferences update = UpdatePartReferences.Newer)
+		{
+			// Check if the parameters are correctly provided
+			if (string.IsNullOrEmpty(sceneName))
+				throw new ArgumentException("'fileName' cannot be null or empty", "fileName");
+			// Check if a valid filename is provided
+			if (!sceneName.EndsWith(".sza", StringComparison.InvariantCultureIgnoreCase))
+				throw new Exception("File with the extension 'SZA' is expected");
+			//throw new ArgumentException($"'{nameof(fileName)}' cannot be null or empty", nameof(fileName));
+			// Get the first empty scene slot
+			SceneSlot Empyslot = context.SceneSlots.FirstOrDefault(x => x.Scene == null);
+			// Check if a slot is available
+			if (Empyslot == null)
+				throw new Exception(string.Format("All SceneSlots are in use. Open drawings limit of {0} reached", context.SceneSlots.Count()));
+			// Check if the file not already exists
+			if (!File.Exists(sceneName))
+			{
+				// Activate the SceneSlote
+				Empyslot.Activate(update);
+				// Create new Scene, trimming the ".SZA" otherwise the name will end up like 'Drawing1.SZA.SZA'
+				context.NewScene(
+					Path.Combine(Path.GetDirectoryName(sceneName), Path.GetFileNameWithoutExtension(sceneName))
+				);
+				// Return the created scene
+				return context.ActiveScene;
+			}
+			else
+			{
+				// File already exists, look for matching names
+				// Name of the Scene is either fully defined, or filename withouth any extension
+				IEnumerable<SceneSlot> slots = context.SceneSlots.Where(x =>
+					x.Scene != null &&
+					(
+						string.Equals(Path.GetFileNameWithoutExtension(x.Scene.Name), Path.GetFileNameWithoutExtension(sceneName), StringComparison.InvariantCultureIgnoreCase) ||
+						string.Equals(Path.GetFileName(x.Scene.Name), Path.GetFileName(sceneName), StringComparison.InvariantCultureIgnoreCase)
+					)
+				);
+				// Check if any matching scenes are found
+				if (slots.Count() > 0)
+				{
+					// Check if any is exactly like the provided sceneName
+					SceneSlot slotExact = slots.FirstOrDefault(x => string.Equals(x.Scene.Name, sceneName, StringComparison.InvariantCultureIgnoreCase));
+					if (slotExact != null)
+					{
+						// Activate the 'current' drawing since the name is fully defined
+						slotExact.Activate(update);
+						// Return the scene
+						return slotExact.Scene;
+					}
+					else
+					{
+						// No exactt match is found, check each slot
+						foreach (SceneSlot slot in slots)
+						{
+							// Activate the slote
+							slot.Activate(update);
+							// Check if the Scene name is now exactly like the provided sceneName
+							if (string.Equals(slot.Scene.Name, sceneName, StringComparison.InvariantCultureIgnoreCase))
+							{
+								// Return the activated scene
+								return slot.Scene;
+							}
+						}
+					}
+				}
+				// File which already exists is not openend in any slot, Activate the new slot
+				Empyslot.Activate(update);
+				// Load the request SceneName
+				return context.Load(sceneName, readOnly);
+			}
+		}
+
+		/// <summary>
 		/// Parse a product path to a local/network file/directory
 		/// </summary>
 		/// <example>
@@ -377,7 +502,7 @@ namespace HicadCommunity
 		///
 		/// </summary>
 		/// <param name="scene">Scene to be saved</param>
-		/// <param name="savePartReference">How to handle the saving of external referenced files</param>
+		/// <param name="savePartReference">How to handle the saving of external referenced parts</param>
 		/// <returns></returns>
 		internal static Scene Save(this Scene scene, SavePartReferences savePartReference)
 		{
