@@ -14,6 +14,7 @@
 */
 
 using HiCAD.Data;
+using ISD.CAD.Base;
 using ISD.CAD.Contexts;
 using ISD.CAD.Data;
 using ISD.CAD.IO;
@@ -25,11 +26,41 @@ using System.Text.RegularExpressions;
 
 namespace HicadCommunity
 {
+	/// <summary>
+	/// Data extensions for all kind of Objects
+	/// </summary>
 	public static class DataExtenions
 	{
 		private static UnconstrainedContext Context => ScriptBase.BaseContext as UnconstrainedContext;
 
-		public static PartImpl ImportStep(this Scene scene, FileInfo file) => scene.ImportStep(file.FullName);
+		/// <summary>
+		/// Get the active SheetMetal part, not the flange or bend zone
+		/// </summary>
+		/// <param name="context">Current Context</param>
+		/// <returns></returns>
+		public static PartImpl GetActiveSheetMetalNode(this UnconstrainedContext context)
+		{
+			// Make sure the Scene is available
+			if (context.ActiveScene == null)
+				throw new Exception("There is no open active scene");
+			try
+			{
+				// Get the active node
+				PartImpl result = (PartImpl)context?.ActiveNode;
+				// Check if the result is empty or not a SheetMetal part
+				if (result == null || result.Type != NodeType.SheetMetal)
+					return null;
+				// Return the parent active node
+				return result.Parent != null && result.Parent.Type == NodeType.SheetMetal
+					? (PartImpl)result.Parent
+					: result;
+			}
+			catch (Exception ex)
+			{
+				FileLogger.Log(ex);
+				return default;
+			}
+		}
 
 		/// <summary>
 		/// Import a STP/STEP file into the provided scene
@@ -37,6 +68,8 @@ namespace HicadCommunity
 		/// <param name="scene">The scane where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
 		/// <returns></returns>
+		public static PartImpl ImportStep(this Scene scene, FileInfo file) => scene.ImportStep(file.FullName);
+
 		/// <summary>
 		/// Import a STP/STEP file into the provided scene
 		/// </summary>
@@ -74,6 +107,27 @@ namespace HicadCommunity
 				return default;
 			}
 		}
+
+		/// <summary>
+		/// Check if the current Node is referenced
+		/// </summary>
+		/// <param name="n">Node to check if it's referenced</param>
+		/// <returns></returns>
+		public static bool IsReferenced(this Node n) => n != null && n.Exists && n.Reference != null;
+
+		/// <summary>
+		/// Check if the current Node is externally referenced
+		/// </summary>
+		/// <param name="n">Node to check if it's externally referenced</param>
+		/// <returns></returns>
+		public static bool IsReferencedExternal(this Node n) => n.IsReferenced() && !string.IsNullOrEmpty(n.Reference.Location);
+
+		/// <summary>
+		/// Check if the current Node is internally referenced
+		/// </summary>
+		/// <param name="n">Node to check if it's internally referenced</param>
+		/// <returns></returns>
+		public static bool IsReferencedInternal(this Node n) => n.IsReferenced() && string.IsNullOrEmpty(n.Reference.Location);
 
 		/// <summary>
 		/// Parse a product path to a local/network file/directory
@@ -175,6 +229,7 @@ namespace HicadCommunity
 			}
 		}
 
+		/// <summary>
 		/// Import a DXF/DWG file into the provided scene
 		/// </summary>
 		/// <param name="scene">The scane where the object needs to imported in</param>
