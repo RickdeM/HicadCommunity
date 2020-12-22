@@ -41,7 +41,7 @@ namespace HicadCommunity
 		/// </summary>
 		/// <param name="context">Context which contains all Scenes</param>
 		/// <param name="saveDrawings">Save the drawings before closing it</param>
-		/// <param name="savePartReference">How to save External reference files</param>
+		/// <param name="savePartReference">How to handle the saving of external referenced files</param>
 		public static void CloseAllDrawings(
 			this UnconstrainedContext context,
 			bool saveDrawings = true,
@@ -49,21 +49,20 @@ namespace HicadCommunity
 		{
 			try
 			{
-				/// Loop through all sceneslots
-				foreach (SceneSlot sceneSlote in context.SceneSlots)
+				// Loop through all sceneslots
+				foreach (SceneSlot sceneSlot in context.SceneSlots)
 				{
 					try
 					{
-						// If no scene is available, skip
-						if (sceneSlote.Scene == null)
+						// If no scene is available, skip the slot
+						if (sceneSlot.Scene == null)
 							continue;
 						// activate in order to acces Save/Load function
-						sceneSlote.Scene.Activate();
+						sceneSlot.Scene.Activate();
+						// Check if the drawing should be saved
 						if (saveDrawings)
-						{
 							Context.ActiveScene.Save(savePartReference);
-						}
-						// close
+						// close the drawing
 						Context.ActiveScene.Close();
 					}
 					catch { }
@@ -374,17 +373,23 @@ namespace HicadCommunity
 			return node;
 		}
 
-		internal static Scene Save(this Scene s, SavePartReferences save)
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="scene">Scene to be saved</param>
+		/// <param name="savePartReference">How to handle the saving of external referenced files</param>
+		/// <returns></returns>
+		internal static Scene Save(this Scene scene, SavePartReferences savePartReference)
 		{
 			// Load user preferences
 			SavePartReferences tmpSave = Context.Configuration.Settings.SavePartReferences;
 			try
 			{
 				// Override Reference settings
-				Context.Configuration.Settings.SavePartReferences = save;
+				Context.Configuration.Settings.SavePartReferences = savePartReference;
 
 				// Actually load the drawing
-				s.Save();
+				scene.Save();
 			}
 			catch (Exception ex)
 			{
@@ -395,7 +400,7 @@ namespace HicadCommunity
 				// Reset Reference settings
 				Context.Configuration.Settings.SavePartReferences = tmpSave;
 			}
-			return s;
+			return scene;
 		}
 
 		/// <summary>
