@@ -17,6 +17,7 @@ using HiCAD.Data;
 using ISD.BaseTypes;
 using ISD.CAD.Base;
 using ISD.CAD.Contexts;
+using ISD.CAD.Contexts.Settings;
 using ISD.CAD.Data;
 using ISD.CAD.IO;
 using ISD.Math;
@@ -34,6 +35,45 @@ namespace HicadCommunity
 	public static class DataExtenions
 	{
 		private static UnconstrainedContext Context => ScriptBase.BaseContext as UnconstrainedContext;
+
+		/// <summary>
+		/// Close all opened drawings
+		/// </summary>
+		/// <param name="context">Context which contains all Scenes</param>
+		/// <param name="saveDrawings">Save the drawings before closing it</param>
+		/// <param name="savePartReference">How to save External reference files</param>
+		public static void CloseAllDrawings(
+			this UnconstrainedContext context,
+			bool saveDrawings = true,
+			SavePartReferences savePartReference = SavePartReferences.Modified)
+		{
+			try
+			{
+				/// Loop through all sceneslots
+				foreach (SceneSlot sceneSlote in context.SceneSlots)
+				{
+					try
+					{
+						// If no scene is available, skip
+						if (sceneSlote.Scene == null)
+							continue;
+						// activate in order to acces Save/Load function
+						sceneSlote.Scene.Activate();
+						if (saveDrawings)
+						{
+							Context.ActiveScene.Save(savePartReference);
+						}
+						// close
+						Context.ActiveScene.Close();
+					}
+					catch { }
+				}
+			}
+			catch (Exception ex)
+			{
+				FileLogger.Log(ex);
+			}
+		}
 
 		/// <summary>
 		/// Get the active SheetMetal part, not the flange or bend zone
@@ -332,6 +372,30 @@ namespace HicadCommunity
 			tfs.SetRotation(point ?? new Point3D(), vector ?? NormVector3D.E3, angle);
 			tfs.Apply(node);
 			return node;
+		}
+
+		internal static Scene Save(this Scene s, SavePartReferences save)
+		{
+			// Load user preferences
+			SavePartReferences tmpSave = Context.Configuration.Settings.SavePartReferences;
+			try
+			{
+				// Override Reference settings
+				Context.Configuration.Settings.SavePartReferences = save;
+
+				// Actually load the drawing
+				s.Save();
+			}
+			catch (Exception ex)
+			{
+				FileLogger.Log(ex);
+			}
+			finally
+			{
+				// Reset Reference settings
+				Context.Configuration.Settings.SavePartReferences = tmpSave;
+			}
+			return s;
 		}
 
 		/// <summary>
