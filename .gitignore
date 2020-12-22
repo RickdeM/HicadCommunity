@@ -53,3 +53,6 @@ Thumbs.db
 obj/
 bin/
 lib/
+
+# Testing files
+test.cs
