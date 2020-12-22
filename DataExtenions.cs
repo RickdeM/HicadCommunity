@@ -21,6 +21,7 @@ using ISD.CAD.IO;
 using ISD.Math;
 using ISD.Scripting;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 
@@ -61,6 +62,13 @@ namespace HicadCommunity
 				return default;
 			}
 		}
+
+		/// <summary>
+		/// Get all Facets belonging to the part
+		/// </summary>
+		/// <param name="n">Node to use for returning all Facets</param>
+		/// <returns></returns>
+		public static List<Facet> GetFacets(this Node n) => ((Part)n).Facets;
 
 		/// <summary>
 		/// Import a STP/STEP file into the provided scene
