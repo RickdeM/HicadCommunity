@@ -266,7 +266,7 @@ namespace HicadCommunity
 		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
 		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
 		/// <returns></returns>
-		internal static Figure ImportDxfDwg(
+		public static Figure ImportDxfDwg(
 			this Scene scene,
 			FileInfo file,
 			bool AutoMoveToZeroPoint = false,
@@ -281,7 +281,7 @@ namespace HicadCommunity
 		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
 		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
 		/// <returns></returns>
-		internal static Figure ImportDxfDwg(
+		public static Figure ImportDxfDwg(
 			this Scene scene,
 			string file,
 			bool AutoMoveToZeroPoint = false,
