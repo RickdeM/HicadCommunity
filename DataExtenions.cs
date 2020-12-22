@@ -14,6 +14,7 @@
 */
 
 using HiCAD.Data;
+using ISD.BaseTypes;
 using ISD.CAD.Base;
 using ISD.CAD.Contexts;
 using ISD.CAD.Data;
@@ -229,6 +230,49 @@ namespace HicadCommunity
 		public static bool IsReferencedInternal(this Node n) => n.IsReferenced() && string.IsNullOrEmpty(n.Reference.Location);
 
 		/// <summary>
+		/// Move a node given two points
+		/// </summary>
+		/// <param name="node">Node to be moved</param>
+		/// <param name="start">Start point</param>
+		/// <param name="end">End point</param>
+		/// <returns></returns>
+		public static Node Move(this Node node, Point3D start, Point3D end) => node.Move(new Vector3D(start, end));
+
+		/// <summary>
+		/// Move a node by the given vector
+		/// </summary>
+		/// <param name="node">Node to be moved</param>
+		/// <param name="vec">Vector used for movement</param>
+		/// <returns></returns>
+		public static Node Move(this Node node, Vector3D vec)
+		{
+			new Transformation(vec).Apply(node);
+			return node;
+		}
+
+		/// <summary>
+		/// Move a Node using Workingplanes
+		/// </summary>
+		/// <param name="node">Node to be moved</param>
+		/// <param name="start">Start CoordinateSystem for movement </param>
+		/// <param name="end">End CoordinateSystem for movement</param>
+		/// <returns></returns>
+		public static Node Move(this Node node, WorkingPlane start, WorkingPlane end) => node.Move(start.CoordinateSystem, end.CoordinateSystem);
+
+		/// <summary>
+		/// Move a Node using CoordinationSystems
+		/// </summary>
+		/// <param name="node">Node to be moved</param>
+		/// <param name="start">Start CoordinateSystem for movement </param>
+		/// <param name="end">End CoordinateSystem for movement</param>
+		/// <returns></returns>
+		public static Node Move(this Node node, CoordinateSystem start, CoordinateSystem end)
+		{
+			start.BaseTransformation(end).Apply(node);
+			return node;
+		}
+
+		/// <summary>
 		/// Parse a product path to a local/network file/directory
 		/// </summary>
 		/// <example>
@@ -272,6 +316,22 @@ namespace HicadCommunity
 				// Return the default value
 				return default;
 			}
+		}
+
+		/// <summary>
+		/// Rotate a Node
+		/// </summary>
+		/// <param name="node">Node to be rotated</param>
+		/// <param name="angle">Angle in degrees</param>
+		/// <param name="vector">Rotating vector (angle is CCW, rotates from X-axis to Y-axis), default axis is Z</param>
+		/// <param name="point">Rotating point, default Point is 0,0,0</param>
+		/// <returns></returns>
+		public static Node Rotate(this Node node, Angle angle, NormVector3D? vector = null, Point3D? point = null)
+		{
+			var tfs = new Transformation();
+			tfs.SetRotation(point ?? new Point3D(), vector ?? NormVector3D.E3, angle);
+			tfs.Apply(node);
+			return node;
 		}
 
 		/// <summary>
