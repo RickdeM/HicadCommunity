@@ -64,6 +64,13 @@ namespace HicadCommunity
 		}
 
 		/// <summary>
+		/// Get all Edges belonging to the part
+		/// </summary>
+		/// <param name="n">Node to use for returning all Edges</param>
+		/// <returns></returns>
+		public static List<Edge> GetEdges(this Node n) => ((Part)n).Edges;
+
+		/// <summary>
 		/// Get all Facets belonging to the part
 		/// </summary>
 		/// <param name="n">Node to use for returning all Facets</param>
