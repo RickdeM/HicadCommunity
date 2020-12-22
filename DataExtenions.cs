@@ -92,6 +92,76 @@ namespace HicadCommunity
 		public static double GetMaterialSize(this Node n) => n.AttributeSet.GetValue<double>("§04");
 
 		/// <summary>
+		/// Import a DXF/DWG file into the provided scene
+		/// </summary>
+		/// <param name="scene">The scane where the object needs to imported in</param>
+		/// <param name="file">The file which needs to be imported in the scene</param>
+		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
+		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
+		/// <returns></returns>
+		public static Figure ImportDxfDwg(
+			this Scene scene,
+			FileInfo file,
+			bool AutoMoveToZeroPoint = false,
+			bool SetScaleIndependent = false
+		) => scene.ImportDxfDwg(file.FullName, AutoMoveToZeroPoint, SetScaleIndependent);
+
+		/// <summary>
+		/// Import a DXF/DWG file into the provided scene
+		/// </summary>
+		/// <param name="scene">The scane where the object needs to imported in</param>
+		/// <param name="file">The file which needs to be imported in the scene</param>
+		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
+		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
+		/// <returns></returns>
+		public static Figure ImportDxfDwg(
+			this Scene scene,
+			string file,
+			bool AutoMoveToZeroPoint = false,
+			bool SetScaleIndependent = false)
+		{
+			// Note:
+			// DXF/DWG import settings can only be managed in the CFGDB: Interfaces > General 3-D interfaces
+
+			// Check if the parameters are correctly provided
+			if (scene is null)
+				throw new ArgumentNullException(nameof(scene));
+			if (file is null)
+				throw new ArgumentNullException(nameof(file));
+
+			try
+			{
+				// The scene must be active in order to load any new objects
+				if (!scene.Active)
+					throw new Exception("Provided Scene is not activated");
+				// Load the DXF/DWG File, All configurations can be found in the CFGDB:s
+				FigureImpl result = FileIO.Load(file, new DXFImportSettings()) as FigureImpl;
+				result.DrawingSheet = Context.ActiveScene.ActiveDrawingSheet;
+				// Check if the Figure should me moved as close the the Zero point
+				if (AutoMoveToZeroPoint)
+				{
+					// Only move the figure when there is a distance between them
+					if (result.BoundingRect.BottomLeft.GetDistance(new Point2D()) > 0)
+						// Move BottomLeft to the Zero point
+						result.Move(new Vector2D(result.BoundingRect.BottomLeft, new Point2D()));
+				}
+				// Check if scale independent should be enablead
+				if (SetScaleIndependent)
+					// Make
+					result.SetScaleIndependent(new Vector2D());
+				// Return the imported object
+				return result;
+			}
+			catch (Exception ex)
+			{
+				// Log the error for debugging purposes
+				FileLogger.Log(ex);
+				// Return the default value
+				return default;
+			}
+		}
+
+		/// <summary>
 		/// Import a STP/STEP file into the provided scene
 		/// </summary>
 		/// <param name="scene">The scane where the object needs to imported in</param>
@@ -255,76 +325,6 @@ namespace HicadCommunity
 						attrSet.SetValue(name, value);
 						break;
 				}
-			}
-		}
-
-		/// <summary>
-		/// Import a DXF/DWG file into the provided scene
-		/// </summary>
-		/// <param name="scene">The scane where the object needs to imported in</param>
-		/// <param name="file">The file which needs to be imported in the scene</param>
-		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
-		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
-		/// <returns></returns>
-		public static Figure ImportDxfDwg(
-			this Scene scene,
-			FileInfo file,
-			bool AutoMoveToZeroPoint = false,
-			bool SetScaleIndependent = false
-		) => scene.ImportDxfDwg(file.FullName, AutoMoveToZeroPoint, SetScaleIndependent);
-
-		/// <summary>
-		/// Import a DXF/DWG file into the provided scene
-		/// </summary>
-		/// <param name="scene">The scane where the object needs to imported in</param>
-		/// <param name="file">The file which needs to be imported in the scene</param>
-		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
-		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
-		/// <returns></returns>
-		public static Figure ImportDxfDwg(
-			this Scene scene,
-			string file,
-			bool AutoMoveToZeroPoint = false,
-			bool SetScaleIndependent = false)
-		{
-			// Note:
-			// DXF/DWG import settings can only be managed in the CFGDB: Interfaces > General 3-D interfaces
-
-			// Check if the parameters are correctly provided
-			if (scene is null)
-				throw new ArgumentNullException(nameof(scene));
-			if (file is null)
-				throw new ArgumentNullException(nameof(file));
-
-			try
-			{
-				// The scene must be active in order to load any new objects
-				if (!scene.Active)
-					throw new Exception("Provided Scene is not activated");
-				// Load the DXF/DWG File, All configurations can be found in the CFGDB:s
-				FigureImpl result = FileIO.Load(file, new DXFImportSettings()) as FigureImpl;
-				result.DrawingSheet = Context.ActiveScene.ActiveDrawingSheet;
-				// Check if the Figure should me moved as close the the Zero point
-				if (AutoMoveToZeroPoint)
-				{
-					// Only move the figure when there is a distance between them
-					if (result.BoundingRect.BottomLeft.GetDistance(new Point2D()) > 0)
-						// Move BottomLeft to the Zero point
-						result.Move(new Vector2D(result.BoundingRect.BottomLeft, new Point2D()));
-				}
-				// Check if scale independent should be enablead
-				if (SetScaleIndependent)
-					// Make
-					result.SetScaleIndependent(new Vector2D());
-				// Return the imported object
-				return result;
-			}
-			catch (Exception ex)
-			{
-				// Log the error for debugging purposes
-				FileLogger.Log(ex);
-				// Return the default value
-				return default;
 			}
 		}
 	}
