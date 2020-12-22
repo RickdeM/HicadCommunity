@@ -23,6 +23,9 @@ using System.Linq;
 
 namespace HicadCommunity
 {
+	/// <summary>
+	/// Asynchrone selection handler
+	/// </summary>
 	public static class SmartSelection
 	{
 		/// <summary>
