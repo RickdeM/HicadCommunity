@@ -21,7 +21,7 @@ namespace HicadCommunity.Helpers
 	/// <summary>
 	/// PropertyChanged helper
 	/// </summary>
-	public class PropertyChangedHandler : INotifyPropertyChanged
+	public class NotifyPropertyChangedHelper : INotifyPropertyChanged
 	{
 		/// <summary>
 		/// Get the Dispatcher of the objects ownwer
@@ -31,7 +31,7 @@ namespace HicadCommunity.Helpers
 		/// <summary>
 		/// Create new PropertyChagnedHandler
 		/// </summary>
-		public PropertyChangedHandler()
+		public NotifyPropertyChangedHelper()
 		{
 			// Save the Dispatcher of the objects ownwer
 			Dispatcher = Dispatcher.CurrentDispatcher;
