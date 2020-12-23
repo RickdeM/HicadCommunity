@@ -150,6 +150,25 @@ namespace HicadCommunity
 		}
 
 		/// <summary>
+		/// Get the location of the Kataloge
+		/// </summary>
+		/// <param name="context">Current Context</param>
+		/// <returns></returns>
+		public static string GetCatalogDirectory(this UnconstrainedContext context)
+		{
+			try
+			{
+				using (RegistryKey reg = Registry.LocalMachine.OpenSubKey($"SOFTWARE\\ISD Software und Systeme\\HiCAD\\{context.Version}", true))
+					return reg.GetValue("CatDir").ToString();
+			}
+			catch (Exception ex)
+			{
+				FileLogger.Log(ex);
+				return default;
+			}
+		}
+
+		/// <summary>
 		/// Get the location of the CFGDB ( Configuration Database )
 		/// </summary>
 		/// <param name="context">Current Context</param>
