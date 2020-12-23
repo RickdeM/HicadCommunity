@@ -624,6 +624,30 @@ namespace HicadCommunity
 		}
 
 		/// <summary>
+		/// Set the BOM relevancy of a Node
+		/// </summary>
+		/// <param name="n">Node to be set/unset for BOM relevance</param>
+		/// <param name="isRelevant">Flag for BOM relevant or not</param>
+		/// <returns></returns>
+		public static Node SetPartsListRelevant(this Node n, bool isRelevant)
+		{
+			try
+			{
+				// Check if the node is not null and exists
+				if (n != null && n.Exists)
+					// Set the Bom Relevance to the required value
+					n.AttributeSet.SetObjectValue("#SR", isRelevant ? 1 : 0);
+			}
+			catch (Exception ex)
+			{
+				// Something went wrong...
+				FileLogger.Log(ex);
+			}
+			// Return the Node for faster coding
+			return n;
+		}
+
+		/// <summary>
 		/// Update a Attribute value or delete it
 		/// </summary>
 		/// <param name="attrSet">Attribute set to be used</param>
