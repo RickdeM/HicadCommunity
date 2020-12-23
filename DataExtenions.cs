@@ -223,6 +223,22 @@ namespace HicadCommunity
 		public static double GetMaterialSize(this Node n) => n.AttributeSet.GetValue<double>("§04");
 
 		/// <summary>
+		/// Get a all PartsList relevant nodes from the given node.
+		/// </summary>
+		/// <param name="root"></param>
+		/// <returns></returns>
+		public static List<Node> GetProductStructure(this Node root)
+		{
+			// Get all nodes which are directly PartListRelevant
+			List<Node> result = root.SubNodes.Where(x => x.IsPartsListRelevant).ToList();
+			// Search 1 level deaper each sub node which is not Bom relevant
+			foreach (Node n in root.SubNodes.Where(x => !x.IsPartsListRelevant))
+				result.AddRange(n.GetProductStructure());
+			// Return Ordered list: Ridder Pos > Item Number
+			return result.OrderBy(x => x.Properties.ItemNumber).ToList();
+		}
+
+		/// <summary>
 		/// Import a DXF/DWG file into the provided scene
 		/// </summary>
 		/// <param name="scene">The scane where the object needs to imported in</param>
