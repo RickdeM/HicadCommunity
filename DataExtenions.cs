@@ -583,6 +583,22 @@ namespace HicadCommunity
 		/// <summary>
 		/// Rotate a Node
 		/// </summary>
+		/// <param name="coor">Node to be rotated</param>
+		/// <param name="angle">Angle in degrees</param>
+		/// <param name="vector">Rotating vector (angle is CCW, rotates from X-axis to Y-axis), default axis is Z</param>
+		/// <param name="point">Rotating point, default Point is 0,0,0</param>
+		/// <returns></returns>
+		public static CoordinateSystem Rotate(this CoordinateSystem coor, Angle angle, NormVector3D? vector = null, Point3D? point = null)
+		{
+			var tfs = new Transformation();
+			tfs.SetRotation(point ?? new Point3D(), vector ?? NormVector3D.E3, angle);
+			coor.Transform(tfs);
+			return coor;
+		}
+
+		/// <summary>
+		/// Rotate a Node
+		/// </summary>
 		/// <param name="node">Node to be rotated</param>
 		/// <param name="angle">Angle in degrees</param>
 		/// <param name="vector">Rotating vector (angle is CCW, rotates from X-axis to Y-axis), default axis is Z</param>
