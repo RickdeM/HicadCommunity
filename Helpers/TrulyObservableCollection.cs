@@ -18,5 +18,9 @@ using System.ComponentModel;
 
 namespace HicadCommunity.Helpers
 {
+	/// <summary>
+	/// Making sure a ObservableCollection uses INotifyPropertyChanged
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	public class TrulyObservableCollection<T> : ObservableCollection<T> where T : INotifyPropertyChanged { }
 }
