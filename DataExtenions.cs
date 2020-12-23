@@ -121,6 +121,39 @@ namespace HicadCommunity
 		}
 
 		/// <summary>
+		/// Create an orthonogal Coordination System by 3 Points
+		/// </summary>
+		/// <param name="context">used for creating the extenions method</param>
+		/// <param name="PointO">Origion Point</param>
+		/// <param name="PointX">Point on the X-axis</param>
+		/// <param name="PointY">Point on the Y-axis</param>
+		/// <returns></returns>
+		public static CoordinateSystem CreateCoordinateSystemOrthonogal(this UnconstrainedContext context, Point3D PointO, Point3D PointX, Point3D PointY)
+		{
+			try
+			{
+				//      Y
+				//      ^
+				//  O - - - > X
+				//
+				// Y-vector is defind by: Nearest point Y on O>X then Point Y
+				// Create the Coordination System
+				CoordinateSystem result = new CoordinateSystem(
+					PointO,
+					new NormVector3D(new Vector3D(PointO, PointX)),
+					new NormVector3D(new Vector3D(new Line3D(PointO, PointX).NearestPoint(PointY), PointY))
+				);
+				// Return the result
+				return result;
+			}
+			catch (Exception ex)
+			{
+				FileLogger.Log(ex);
+				return default;
+			}
+		}
+
+		/// <summary>
 		/// Get the active SheetMetal part, not the flange or bend zone
 		/// </summary>
 		/// <param name="context">Current Context</param>
