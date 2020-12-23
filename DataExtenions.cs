@@ -22,6 +22,7 @@ using ISD.CAD.Data;
 using ISD.CAD.IO;
 using ISD.Math;
 using ISD.Scripting;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -147,6 +148,32 @@ namespace HicadCommunity
 				return default;
 			}
 		}
+
+		/// <summary>
+		/// Get the location of the CFGDB ( Configuration Database )
+		/// </summary>
+		/// <param name="context">Current Context</param>
+		/// <returns></returns>
+		public static string GetCfgdbFile(this UnconstrainedContext context)
+		{
+			try
+			{
+				using (RegistryKey reg = Registry.LocalMachine.OpenSubKey($"SOFTWARE\\ISD Software und Systeme\\HiCAD\\{context.Version}", true))
+					return reg.GetValue("CfgDbPath").ToString();
+			}
+			catch (Exception ex)
+			{
+				FileLogger.Log(ex);
+				return default;
+			}
+		}
+
+		/// <summary>
+		/// Get the directory of the CFGDB ( Configuration Database )
+		/// </summary>
+		/// <param name="context">Current Context</param>
+		/// <returns></returns>
+		public static string GetCfgdbDirectory(this UnconstrainedContext context) => Path.GetDirectoryName(context.GetCfgdbFile());
 
 		/// <summary>
 		/// Get all Edges belonging to the part
