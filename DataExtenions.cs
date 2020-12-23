@@ -130,6 +130,9 @@ namespace HicadCommunity
 		/// <returns></returns>
 		public static CoordinateSystem CreateCoordinateSystemOrthonogal(this UnconstrainedContext context, Point3D PointO, Point3D PointX, Point3D PointY)
 		{
+			// Check the parameter
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
 			try
 			{
 				//      Y
