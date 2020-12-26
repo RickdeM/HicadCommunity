@@ -71,6 +71,7 @@ namespace HicadCommunity
 			}
 			catch (Exception ex)
 			{
+				// Log the error for debugging purposes
 				FileLogger.Log(ex);
 			}
 			finally
@@ -116,6 +117,7 @@ namespace HicadCommunity
 			}
 			catch (Exception ex)
 			{
+				// Log the error for debugging purposes
 				FileLogger.Log(ex);
 			}
 		}
@@ -151,7 +153,9 @@ namespace HicadCommunity
 			}
 			catch (Exception ex)
 			{
+				// Log the error for debugging purposes
 				FileLogger.Log(ex);
+				// Return the default value
 				return default;
 			}
 		}
@@ -180,7 +184,9 @@ namespace HicadCommunity
 			}
 			catch (Exception ex)
 			{
+				// Log the error for debugging purposes
 				FileLogger.Log(ex);
+				// Return the default value
 				return default;
 			}
 		}
@@ -199,7 +205,9 @@ namespace HicadCommunity
 			}
 			catch (Exception ex)
 			{
+				// Log the error for debugging purposes
 				FileLogger.Log(ex);
+				// Return the default value
 				return default;
 			}
 		}
@@ -218,7 +226,9 @@ namespace HicadCommunity
 			}
 			catch (Exception ex)
 			{
+				// Log the error for debugging purposes
 				FileLogger.Log(ex);
+				// Return the default value
 				return default;
 			}
 		}
@@ -632,6 +642,7 @@ namespace HicadCommunity
 			}
 			catch (Exception ex)
 			{
+				// Log the error for debugging purposes
 				FileLogger.Log(ex);
 			}
 			finally
@@ -655,11 +666,11 @@ namespace HicadCommunity
 				// Check if the node is not null and exists
 				if (n != null && n.Exists)
 					// Set the Bom Relevance to the required value
-					n.AttributeSet.SetObjectValue("#SR", isRelevant ? 1 : 0);
+					n.AttributeSet.SetObjectValue(SystemAttributes.Bomrelevant, isRelevant ? 1 : 0);
 			}
 			catch (Exception ex)
 			{
-				// Something went wrong...
+				// Log the error for debugging purposes
 				FileLogger.Log(ex);
 			}
 			// Return the Node for faster coding
