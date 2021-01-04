@@ -685,7 +685,7 @@ namespace HicadCommunity
 		/// <param name="n">Node to be set/unset for BOM relevance</param>
 		/// <param name="isRelevant">Flag for BOM relevant or not</param>
 		/// <returns></returns>
-		public static Node SetPartsListRelevant(this Node n, bool isRelevant)
+		public static T SetPartsListRelevant<T>(this T n, bool isRelevant) where T : Node
 		{
 			try
 			{
@@ -699,7 +699,7 @@ namespace HicadCommunity
 				// Log the error for debugging purposes
 				FileLogger.Log(ex);
 			}
-			// Return the Node for faster coding
+			// Return the Node
 			return n;
 		}
 
