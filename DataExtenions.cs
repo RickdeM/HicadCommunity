@@ -654,7 +654,7 @@ namespace HicadCommunity
 		/// <param name="scene">Scene to be saved</param>
 		/// <param name="savePartReference">How to handle the saving of external referenced parts</param>
 		/// <returns></returns>
-		internal static Scene Save(this Scene scene, SavePartReferences savePartReference)
+		public static Scene Save(this Scene scene, SavePartReferences savePartReference)
 		{
 			// Load user preferences
 			SavePartReferences tmpSave = Context.Configuration.Settings.SavePartReferences;
