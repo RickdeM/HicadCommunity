@@ -269,6 +269,13 @@ namespace HicadCommunity
 		public static double GetMaterialSize(this Node n) => n.AttributeSet.GetValue<double>("§04");
 
 		/// <summary>
+		/// Get The Part
+		/// </summary>
+		/// <param name="n">Node to get the part of</param>
+		/// <returns></returns>
+		public static Part GetPart(this Node n) => (Part)n;
+
+		/// <summary>
 		/// Get a all PartsList relevant nodes from the given node.
 		/// </summary>
 		/// <param name="root"></param>
