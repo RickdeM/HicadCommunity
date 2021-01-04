@@ -213,6 +213,13 @@ namespace HicadCommunity
 		}
 
 		/// <summary>
+		/// Get the directory of the CFGDB ( Configuration Database )
+		/// </summary>
+		/// <param name="context">Current Context</param>
+		/// <returns></returns>
+		public static string GetCfgdbDirectory(this UnconstrainedContext context) => Path.GetDirectoryName(context.GetCfgdbFile());
+
+		/// <summary>
 		/// Get the location of the CFGDB ( Configuration Database )
 		/// </summary>
 		/// <param name="context">Current Context</param>
@@ -232,13 +239,6 @@ namespace HicadCommunity
 				return default;
 			}
 		}
-
-		/// <summary>
-		/// Get the directory of the CFGDB ( Configuration Database )
-		/// </summary>
-		/// <param name="context">Current Context</param>
-		/// <returns></returns>
-		public static string GetCfgdbDirectory(this UnconstrainedContext context) => Path.GetDirectoryName(context.GetCfgdbFile());
 
 		/// <summary>
 		/// Get all Edges belonging to the part
@@ -309,7 +309,7 @@ namespace HicadCommunity
 		/// <summary>
 		/// Import a DXF/DWG file into the provided scene
 		/// </summary>
-		/// <param name="scene">The scane where the object needs to imported in</param>
+		/// <param name="scene">The scene where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
 		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
 		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
@@ -367,7 +367,7 @@ namespace HicadCommunity
 		/// <param name="scene">The scane where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
 		/// <returns></returns>
-		public static PartImpl ImportStep(this Scene scene, FileInfo file) => scene.ImportStep(file.FullName);
+		public static Node ImportStep(this Scene scene, FileInfo file) => scene.ImportStep(file.FullName);
 
 		/// <summary>
 		/// Import a STP/STEP file into the provided scene
@@ -375,7 +375,7 @@ namespace HicadCommunity
 		/// <param name="scene">The scane where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
 		/// <returns></returns>
-		public static PartImpl ImportStep(this Scene scene, string file)
+		public static Node ImportStep(this Scene scene, string file)
 		{
 			// Note:
 			// STP import settings can only be managed in the CFGDB: Interfaces > General 3-D interfaces
@@ -394,7 +394,7 @@ namespace HicadCommunity
 				if (!scene.Active)
 					throw new Exception("Provided Scene is not activated");
 				// Load the STP File
-				PartImpl result = FileIO.Load(file, new StepImportSettings()) as PartImpl;
+				Node result = FileIO.Load(file, new StepImportSettings()) as Node;
 				// Return the imported object
 				return result;
 			}
@@ -680,30 +680,6 @@ namespace HicadCommunity
 		}
 
 		/// <summary>
-		/// Set the BOM relevancy of a Node
-		/// </summary>
-		/// <param name="n">Node to be set/unset for BOM relevance</param>
-		/// <param name="isRelevant">Flag for BOM relevant or not</param>
-		/// <returns></returns>
-		public static T SetPartsListRelevant<T>(this T n, bool isRelevant) where T : Node
-		{
-			try
-			{
-				// Check if the node is not null and exists
-				if (n != null && n.Exists)
-					// Set the Bom Relevance to the required value
-					n.AttributeSet.SetObjectValue(SystemAttributes.Bomrelevant, isRelevant ? 1 : 0);
-			}
-			catch (Exception ex)
-			{
-				// Log the error for debugging purposes
-				FileLogger.Log(ex);
-			}
-			// Return the Node
-			return n;
-		}
-
-		/// <summary>
 		/// Update a Attribute value or delete it
 		/// </summary>
 		/// <param name="attrSet">Attribute set to be used</param>
@@ -756,6 +732,30 @@ namespace HicadCommunity
 				}
 			}
 			return attrSet;
+		}
+
+		/// <summary>
+		/// Set the BOM relevancy of a Node
+		/// </summary>
+		/// <param name="n">Node to be set/unset for BOM relevance</param>
+		/// <param name="isRelevant">Flag for BOM relevant or not</param>
+		/// <returns></returns>
+		public static T SetPartsListRelevant<T>(this T n, bool isRelevant) where T : Node
+		{
+			try
+			{
+				// Check if the node is not null and exists
+				if (n != null && n.Exists)
+					// Set the Bom Relevance to the required value
+					n.AttributeSet.SetObjectValue(SystemAttributes.Bomrelevant, isRelevant ? 1 : 0);
+			}
+			catch (Exception ex)
+			{
+				// Log the error for debugging purposes
+				FileLogger.Log(ex);
+			}
+			// Return the Node
+			return n;
 		}
 	}
 }
