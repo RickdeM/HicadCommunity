@@ -669,7 +669,6 @@ namespace HicadCommunity
 			{
 				// Override Reference settings
 				Context.Configuration.Settings.SavePartReferences = savePartReference;
-
 				// Actually load the drawing
 				scene.Save();
 			}
