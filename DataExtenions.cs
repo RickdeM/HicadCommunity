@@ -298,13 +298,15 @@ namespace HicadCommunity
 		/// <param name="file">The file which needs to be imported in the scene</param>
 		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
 		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
+		/// <param name="configurationFile">Import Configuration file, default is 'C:\HiCAD\sys\acadhcad.dat'</param>
 		/// <returns></returns>
 		public static Figure ImportDxfDwg(
 			this Scene scene,
 			FileInfo file,
 			bool AutoMoveToZeroPoint = false,
-			bool SetScaleIndependent = false
-		) => scene.ImportDxfDwg(file.FullName, AutoMoveToZeroPoint, SetScaleIndependent);
+			bool SetScaleIndependent = false,
+			string configurationFile = null
+		) => scene.ImportDxfDwg(file.FullName, AutoMoveToZeroPoint, SetScaleIndependent, configurationFile);
 
 		/// <summary>
 		/// Import a DXF/DWG file into the provided scene
@@ -313,12 +315,14 @@ namespace HicadCommunity
 		/// <param name="file">The file which needs to be imported in the scene</param>
 		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
 		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
+		/// <param name="configurationFile">Import Configuration file, default is 'C:\HiCAD\sys\acadhcad.dat'</param>
 		/// <returns></returns>
 		public static Figure ImportDxfDwg(
 			this Scene scene,
 			string file,
 			bool AutoMoveToZeroPoint = false,
-			bool SetScaleIndependent = false)
+			bool SetScaleIndependent = false,
+			string configurationFile = null)
 		{
 			// Note:
 			// DXF/DWG import settings can only be managed in the CFGDB: Interfaces > General 3-D interfaces
@@ -335,7 +339,10 @@ namespace HicadCommunity
 				if (!scene.Active)
 					throw new Exception("Provided Scene is not activated");
 				// Load the DXF/DWG File, All configurations can be found in the CFGDB:s
-				FigureImpl result = FileIO.Load(file, new DXFImportSettings()) as FigureImpl;
+				FigureImpl result = FileIO.Load(
+					file,
+					string.IsNullOrEmpty(configurationFile) ? new DXFImportSettings() : new DXFImportSettings() { ConfigurationFile = configurationFile }
+				) as FigureImpl;
 				result.DrawingSheet = Context.ActiveScene.ActiveDrawingSheet;
 				// Check if the Figure should me moved as close the the Zero point
 				if (AutoMoveToZeroPoint)
