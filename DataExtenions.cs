@@ -709,7 +709,7 @@ namespace HicadCommunity
 		/// <param name="attrSet">Attribute set to be used</param>
 		/// <param name="name">Name of the requested attribute name</param>
 		/// <param name="value">Value to be set</param>
-		public static void SetObjectValue(this AttributeSet attrSet, string name, object value)
+		public static AttributeSet SetObjectValue(this AttributeSet attrSet, string name, object value)
 		{
 			// Check if the parameters are correctly provided
 			if (attrSet is null)
@@ -755,6 +755,7 @@ namespace HicadCommunity
 						break;
 				}
 			}
+			return attrSet;
 		}
 	}
 }
