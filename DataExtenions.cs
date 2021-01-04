@@ -461,6 +461,24 @@ namespace HicadCommunity
 		public static T Move<T>(this T node, WorkingPlane start, WorkingPlane end) where T : Node => node.Move(start.CoordinateSystem, end.CoordinateSystem);
 
 		/// <summary>
+		/// Move a Node using Workingplanes
+		/// </summary>
+		/// <param name="node">Node to be moved</param>
+		/// <param name="start">Start CoordinateSystem for movement </param>
+		/// <param name="end">End CoordinateSystem for movement</param>
+		/// <returns></returns>
+		public static T Move<T>(this T node, CoordinateSystem start, WorkingPlane end) where T : Node => node.Move(start, end.CoordinateSystem);
+
+		/// <summary>
+		/// Move a Node using Workingplanes
+		/// </summary>
+		/// <param name="node">Node to be moved</param>
+		/// <param name="start">Start CoordinateSystem for movement </param>
+		/// <param name="end">End CoordinateSystem for movement</param>
+		/// <returns></returns>
+		public static T Move<T>(this T node, WorkingPlane start, CoordinateSystem end) where T : Node => node.Move(start.CoordinateSystem, end);
+
+		/// <summary>
 		/// Move a Node using CoordinationSystems
 		/// </summary>
 		/// <param name="node">Node to be moved</param>
