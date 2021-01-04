@@ -435,7 +435,7 @@ namespace HicadCommunity
 		/// <param name="start">Start point</param>
 		/// <param name="end">End point</param>
 		/// <returns></returns>
-		public static Node Move(this Node node, Point3D start, Point3D end) => node.Move(new Vector3D(start, end));
+		public static T Move<T>(this T node, Point3D start, Point3D end) where T : Node => node.Move(new Vector3D(start, end));
 
 		/// <summary>
 		/// Move a node by the given vector
@@ -443,9 +443,11 @@ namespace HicadCommunity
 		/// <param name="node">Node to be moved</param>
 		/// <param name="vec">Vector used for movement</param>
 		/// <returns></returns>
-		public static Node Move(this Node node, Vector3D vec)
+		public static T Move<T>(this T node, Vector3D vec) where T : Node
 		{
+			// Move the Node
 			new Transformation(vec).Apply(node);
+			// Return the Node
 			return node;
 		}
 
@@ -456,7 +458,7 @@ namespace HicadCommunity
 		/// <param name="start">Start CoordinateSystem for movement </param>
 		/// <param name="end">End CoordinateSystem for movement</param>
 		/// <returns></returns>
-		public static Node Move(this Node node, WorkingPlane start, WorkingPlane end) => node.Move(start.CoordinateSystem, end.CoordinateSystem);
+		public static T Move<T>(this T node, WorkingPlane start, WorkingPlane end) where T : Node => node.Move(start.CoordinateSystem, end.CoordinateSystem);
 
 		/// <summary>
 		/// Move a Node using CoordinationSystems
@@ -465,9 +467,11 @@ namespace HicadCommunity
 		/// <param name="start">Start CoordinateSystem for movement </param>
 		/// <param name="end">End CoordinateSystem for movement</param>
 		/// <returns></returns>
-		public static Node Move(this Node node, CoordinateSystem start, CoordinateSystem end)
+		public static T Move<T>(this T node, CoordinateSystem start, CoordinateSystem end) where T : Node
 		{
+			// Move the Node
 			start.BaseTransformation(end).Apply(node);
+			// Return the Node
 			return node;
 		}
 
