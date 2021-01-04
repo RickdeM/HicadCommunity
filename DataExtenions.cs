@@ -367,7 +367,7 @@ namespace HicadCommunity
 		/// <param name="scene">The scane where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
 		/// <returns></returns>
-		public static Node ImportStep(this Scene scene, FileInfo file) => scene.ImportStep(file.FullName);
+		public static Node ImportStp(this Scene scene, FileInfo file) => scene.ImportStp(file.FullName);
 
 		/// <summary>
 		/// Import a STP/STEP file into the provided scene
@@ -375,7 +375,7 @@ namespace HicadCommunity
 		/// <param name="scene">The scane where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
 		/// <returns></returns>
-		public static Node ImportStep(this Scene scene, string file)
+		public static Node ImportStp(this Scene scene, string file)
 		{
 			// Note:
 			// STP import settings can only be managed in the CFGDB: Interfaces > General 3-D interfaces
