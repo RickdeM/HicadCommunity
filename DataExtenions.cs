@@ -582,6 +582,7 @@ namespace HicadCommunity
 		/// <returns></returns>
 		public static string ParseProductPath(this string file)
 		{
+			// Check if the parameters are correctly provided
 			if (file is null)
 				throw new ArgumentNullException(nameof(file));
 			try
@@ -598,16 +599,9 @@ namespace HicadCommunity
 					Match regMatch = Regex.Match(file, @"(^[A-Z#0-9]):(.+)", RegexOptions.Multiline | RegexOptions.IgnoreCase);
 					// check if a match is found
 					if (regMatch != null && regMatch.Groups != null && regMatch.Groups.Count > 0)
-					{
 						// return newly formatted file/directory
-						return string.Format(
-							"{0}{1}",
-							Context.Configuration.GetProductPath(regMatch.Groups[1].Value),
-							regMatch.Groups[2].Value
-						);
-					}
+						return $"{Context.Configuration.GetProductPath(regMatch.Groups[1].Value)}{regMatch.Groups[2].Value}";
 				}
-
 				return file;
 			}
 			catch (Exception ex)
