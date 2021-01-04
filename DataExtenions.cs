@@ -245,14 +245,14 @@ namespace HicadCommunity
 		/// </summary>
 		/// <param name="n">Node to use for returning all Edges</param>
 		/// <returns></returns>
-		public static List<Edge> GetEdges(this Node n) => ((Part)n).Edges;
+		public static List<Edge> GetEdges(this Node n) => n.GetPart().Edges;
 
 		/// <summary>
 		/// Get all Facets belonging to the part
 		/// </summary>
 		/// <param name="n">Node to use for returning all Facets</param>
 		/// <returns></returns>
-		public static List<Facet> GetFacets(this Node n) => ((Part)n).Facets;
+		public static List<Facet> GetFacets(this Node n) => n.GetPart().Facets;
 
 		/// <summary>
 		/// Get the material name of the part
