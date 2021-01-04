@@ -637,11 +637,14 @@ namespace HicadCommunity
 		/// <param name="vector">Rotating vector (angle is CCW, rotates from X-axis to Y-axis), default axis is Z</param>
 		/// <param name="point">Rotating point, default Point is 0,0,0</param>
 		/// <returns></returns>
-		public static Node Rotate(this Node node, Angle angle, NormVector3D? vector = null, Point3D? point = null)
+		public static T Rotate<T>(this T node, Angle angle, NormVector3D? vector = null, Point3D? point = null) where T : Node
 		{
+			// Create Transformation
 			var tfs = new Transformation();
 			tfs.SetRotation(point ?? new Point3D(), vector ?? NormVector3D.E3, angle);
+			// Transform the Node
 			tfs.Apply(node);
+			// Return the node
 			return node;
 		}
 
