@@ -87,11 +87,11 @@ namespace HicadCommunity
 		/// Close all opened drawings
 		/// </summary>
 		/// <param name="context">Context which contains all Scenes</param>
-		/// <param name="saveDrawings">Save the drawings before closing it</param>
+		/// <param name="save">Save the drawings before closing it</param>
 		/// <param name="savePartReference">How to handle the saving of external referenced parts</param>
 		public static void CloseAllDrawings(
 			this UnconstrainedContext context,
-			bool saveDrawings = true,
+			bool save = true,
 			SavePartReferences savePartReference = SavePartReferences.Modified)
 		{
 			try
@@ -107,7 +107,7 @@ namespace HicadCommunity
 						// activate in order to acces Save/Load function
 						sceneSlot.Scene.Activate();
 						// Check if the drawing should be saved
-						if (saveDrawings)
+						if (save)
 							Context.ActiveScene.Save(savePartReference);
 						// close the drawing
 						Context.ActiveScene.Close();
@@ -126,11 +126,11 @@ namespace HicadCommunity
 		/// Create an orthonogal Coordination System by 3 Points
 		/// </summary>
 		/// <param name="context">used for creating the extenions method</param>
-		/// <param name="PointO">Origion Point</param>
-		/// <param name="PointX">Point on the X-axis</param>
-		/// <param name="PointY">Point on the Y-axis</param>
+		/// <param name="pointO">Origion Point</param>
+		/// <param name="pointX">Point on the X-axis</param>
+		/// <param name="pointY">Point on the Y-axis</param>
 		/// <returns></returns>
-		public static CoordinateSystem CreateCoordinateSystemOrthonogal(this UnconstrainedContext context, Point3D PointO, Point3D PointX, Point3D PointY)
+		public static CoordinateSystem CreateCoordinateSystemOrthonogal(this UnconstrainedContext context, Point3D pointO, Point3D pointX, Point3D pointY)
 		{
 			// Check the parameter
 			if (context is null)
@@ -144,9 +144,9 @@ namespace HicadCommunity
 				// Y-vector is defind by: Nearest point Y on O>X then Point Y
 				// Create the Coordination System
 				CoordinateSystem result = new CoordinateSystem(
-					PointO,
-					new NormVector3D(new Vector3D(PointO, PointX)),
-					new NormVector3D(new Vector3D(new Line3D(PointO, PointX).NearestPoint(PointY), PointY))
+					pointO,
+					new NormVector3D(new Vector3D(pointO, pointX)),
+					new NormVector3D(new Vector3D(new Line3D(pointO, pointX).NearestPoint(pointY), pointY))
 				);
 				// Return the result
 				return result;
@@ -165,7 +165,7 @@ namespace HicadCommunity
 		/// </summary>
 		/// <param name="context">Current Context</param>
 		/// <returns></returns>
-		public static PartImpl GetActiveSheetMetalNode(this UnconstrainedContext context)
+		public static Node GetActiveSheetMetalNode(this UnconstrainedContext context)
 		{
 			// Make sure the Scene is available
 			if (context.ActiveScene == null)
@@ -173,13 +173,13 @@ namespace HicadCommunity
 			try
 			{
 				// Get the active node
-				PartImpl result = (PartImpl)context?.ActiveNode;
+				Node result = context?.ActiveNode;
 				// Check if the result is empty or not a SheetMetal part
 				if (result == null || result.Type != NodeType.SheetMetal)
 					return null;
 				// Return the parent active node
 				return result.Parent != null && result.Parent.Type == NodeType.SheetMetal
-					? (PartImpl)result.Parent
+					? result.Parent
 					: result;
 			}
 			catch (Exception ex)
@@ -280,7 +280,7 @@ namespace HicadCommunity
 		/// </summary>
 		/// <param name="root"></param>
 		/// <returns></returns>
-		public static List<Node> GetProductStructure(this Node root)
+		public static IEnumerable<Node> GetProductStructure(this Node root)
 		{
 			// Get all nodes which are directly PartListRelevant
 			List<Node> result = root.SubNodes.Where(x => x.IsPartsListRelevant).ToList();
@@ -288,7 +288,7 @@ namespace HicadCommunity
 			foreach (Node n in root.SubNodes.Where(x => !x.IsPartsListRelevant))
 				result.AddRange(n.GetProductStructure());
 			// Return Ordered list: Ridder Pos > Item Number
-			return result.OrderBy(x => x.Properties.ItemNumber).ToList();
+			return result.OrderBy(x => x.Properties.ItemNumber);
 		}
 
 		/// <summary>
@@ -373,7 +373,7 @@ namespace HicadCommunity
 		/// </summary>
 		/// <param name="scene">The scane where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
-		/// <returns></returns>
+		/// <returns></returns>for movement</param>
 		public static Node ImportStp(this Scene scene, FileInfo file) => scene.ImportStp(file.FullName);
 
 		/// <summary>
@@ -448,7 +448,7 @@ namespace HicadCommunity
 		/// Move a node by the given vector
 		/// </summary>
 		/// <param name="node">Node to be moved</param>
-		/// <param name="vec">Vector used for movement</param>
+		/// <param name="vec">Vector used for transformation</param>
 		/// <returns></returns>
 		public static T Move<T>(this T node, Vector3D vec) where T : Node
 		{
@@ -462,8 +462,8 @@ namespace HicadCommunity
 		/// Move a Node using Workingplanes
 		/// </summary>
 		/// <param name="node">Node to be moved</param>
-		/// <param name="start">Start CoordinateSystem for movement </param>
-		/// <param name="end">End CoordinateSystem for movement</param>
+		/// <param name="start">Start WorkingPlane for transformation</param>
+		/// <param name="end">End WorkingPlane for transformation</param>
 		/// <returns></returns>
 		public static T Move<T>(this T node, WorkingPlane start, WorkingPlane end) where T : Node => node.Move(start.CoordinateSystem, end.CoordinateSystem);
 
@@ -472,7 +472,7 @@ namespace HicadCommunity
 		/// </summary>
 		/// <param name="node">Node to be moved</param>
 		/// <param name="start">Start CoordinateSystem for movement </param>
-		/// <param name="end">End CoordinateSystem for movement</param>
+		/// <param name="end">End CoordinateSystem for transformation</param>
 		/// <returns></returns>
 		public static T Move<T>(this T node, CoordinateSystem start, WorkingPlane end) where T : Node => node.Move(start, end.CoordinateSystem);
 
@@ -481,7 +481,7 @@ namespace HicadCommunity
 		/// </summary>
 		/// <param name="node">Node to be moved</param>
 		/// <param name="start">Start CoordinateSystem for movement </param>
-		/// <param name="end">End CoordinateSystem for movement</param>
+		/// <param name="end">End CoordinateSystem for transformation</param>
 		/// <returns></returns>
 		public static T Move<T>(this T node, WorkingPlane start, CoordinateSystem end) where T : Node => node.Move(start.CoordinateSystem, end);
 
@@ -490,7 +490,7 @@ namespace HicadCommunity
 		/// </summary>
 		/// <param name="node">Node to be moved</param>
 		/// <param name="start">Start CoordinateSystem for movement </param>
-		/// <param name="end">End CoordinateSystem for movement</param>
+		/// <param name="end">End CoordinateSystem for transformation</param>
 		/// <returns></returns>
 		public static T Move<T>(this T node, CoordinateSystem start, CoordinateSystem end) where T : Node
 		{
