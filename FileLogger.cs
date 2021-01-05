@@ -75,7 +75,7 @@ namespace HicadCommunity
 					useAsync: true);
 		}
 
-		public void Write(string module, Exception ex) => _ = WriteAsync(module, ex.Message + " | " + Regex.Replace(ex.StackTrace, @"\t|\n|\r", ""));
+		public void Write(string module, Exception ex) => _ = WriteAsync(module, $"{ex.Message} | {Regex.Replace(ex.StackTrace, @"\t|\n|\r", "")}");
 
 		/// <summary>
 		/// Write to a file
@@ -123,7 +123,7 @@ namespace HicadCommunity
 				IEnumerable<FileInfo> oldfiles = Directory
 					.GetFiles(TempDir)
 					.Select(x => new FileInfo(x))
-					.Where(x => x.Extension.ToLower() == ".log")
+					.Where(x => string.Equals(x.Extension, ".log", StringComparison.InvariantCultureIgnoreCase))
 					.Where(x => x.LastAccessTime < DateTime.Now.AddDays(-7));
 				// Delete all old files
 				foreach (FileInfo fi in oldfiles)
