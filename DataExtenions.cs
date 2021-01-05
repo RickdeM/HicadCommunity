@@ -686,7 +686,7 @@ namespace HicadCommunity
 		}
 
 		/// <summary>
-		/// Update a Attribute value or delete it
+		/// Create/Update an Attribute or delete it
 		/// </summary>
 		/// <param name="attrSet">Attribute set to be used</param>
 		/// <param name="name">Name of the requested attribute name</param>
