@@ -19,7 +19,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml.Serialization;
 
-namespace HicadCommunity.Helpers
+namespace RDM.HicadCommunity.Helpers
 {
 	/// <summary>
 	/// Xml Sync, simplifies casting an object to an XML File

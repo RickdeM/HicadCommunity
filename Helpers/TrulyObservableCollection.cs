@@ -16,7 +16,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace HicadCommunity.Helpers
+namespace RDM.HicadCommunity.Helpers
 {
 	/// <summary>
 	/// Making sure a ObservableCollection uses INotifyPropertyChanged

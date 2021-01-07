@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 
-namespace HicadCommunity
+namespace RDM.HicadCommunity
 {
 	/// <summary>
 	/// Asynchrone selection handler

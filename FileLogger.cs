@@ -23,7 +23,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace HicadCommunity
+namespace RDM.HicadCommunity
 {
 	internal class FileLogger
 	{

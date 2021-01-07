@@ -13,7 +13,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-namespace HicadCommunity
+namespace RDM.HicadCommunity
 {
 	/// <summary>
 	/// List of System Atrributes

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HicadCommunity", "HicadCommunity.csproj", "{B8428F19-5C07-4259-BC45-1F5345D002A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDM.HicadCommunity", "RDM.HicadCommunity.csproj", "{B8428F19-5C07-4259-BC45-1F5345D002A9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

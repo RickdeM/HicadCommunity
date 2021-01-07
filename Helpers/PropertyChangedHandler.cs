@@ -16,7 +16,7 @@
 using System.ComponentModel;
 using System.Windows.Threading;
 
-namespace HicadCommunity.Helpers
+namespace RDM.HicadCommunity.Helpers
 {
 	/// <summary>
 	/// PropertyChanged helper
