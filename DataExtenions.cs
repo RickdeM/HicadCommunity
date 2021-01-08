@@ -259,14 +259,14 @@ namespace RDM.HicadCommunity
 		/// </summary>
 		/// <param name="n">Node to get the material name from</param>
 		/// <returns></returns>
-		public static string GetMaterialName(this Node n) => n.AttributeSet.GetValue<string>("$07");
+		public static string GetMaterialName(this Node n) => n.AttributeSet.GetValue<string>(SystemAttributes.MaterialDesignation);
 
 		/// <summary>
 		/// Get the material size of the part
 		/// </summary>
 		/// <param name="n">Node to get the material size from</param>
 		/// <returns></returns>
-		public static double GetMaterialSize(this Node n) => n.AttributeSet.GetValue<double>("§04");
+		public static double GetMaterialSize(this Node n) => n.AttributeSet.GetValue<double>(SystemAttributes.Height);
 
 		/// <summary>
 		/// Get The Part
