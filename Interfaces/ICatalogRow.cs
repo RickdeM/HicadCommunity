@@ -6,7 +6,7 @@ namespace RDM.HicadCommunity.Interfaces
 	/// <summary>
 	/// Cataloge object required interface
 	/// </summary>
-	public interface ICatalogeRow
+	public interface ICatalogRow
 	{
 		/// <summary>
 		/// Set the Data from the catalog

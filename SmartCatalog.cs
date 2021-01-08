@@ -42,7 +42,7 @@ namespace RDM.HicadCommunity
 		/// <param name="standardId">StandardItem standardId for the requested TableRow</param>
 		/// <param name="itemId">StandardItem itemId for the requested TableRow</param>
 		/// <returns></returns>
-		public static T GetRow<T>(int standardId, int itemId) where T : ICatalogeRow => GetRow<T>(standardId, itemId);
+		public static T GetRow<T>(int standardId, int itemId) where T : ICatalogRow => GetRow<T>(standardId, itemId);
 
 		/// <summary>
 		/// Get a Table record
@@ -50,7 +50,7 @@ namespace RDM.HicadCommunity
 		/// <typeparam name="T">Generic Type return</typeparam>
 		/// <param name="si">StandardItem for the requested TableRow</param>
 		/// <returns></returns>
-		public static T GetRow<T>(this StandardItem si) where T : ICatalogeRow
+		public static T GetRow<T>(this StandardItem si) where T : ICatalogRow
 		{
 			try
 			{
@@ -89,7 +89,7 @@ namespace RDM.HicadCommunity
 		/// <typeparam name="T">Generic Type return</typeparam>
 		/// <param name="tableName"></param>
 		/// <returns></returns>
-		public static List<T> GetRows<T>(string tableName) where T : ICatalogeRow
+		public static List<T> GetRows<T>(string tableName) where T : ICatalogRow
 		{
 			List<T> objList = new List<T>();
 			try
@@ -154,6 +154,27 @@ namespace RDM.HicadCommunity
 		/// <param name="tableName">Catalog TableName</param>
 		/// <returns></returns>
 		public static string GetTableDisplayName(string tableName) => CatPartSrv.GetTable(tableName).DisplayName;
+
+		/// <summary>
+		/// Get the CategoryName of a table
+		/// </summary>
+		/// <param name="si">StandardItem which contains the standardId</param>
+		/// <returns></returns>
+		public static string GetTableCategory(StandardItem si) => CatPartSrv.GetTable(si.StandardId).Category.Name;
+
+		/// <summary>
+		/// Get the CategoryName of a table
+		/// </summary>
+		/// <param name="standardId">Catalog standardId</param>
+		/// <returns></returns>
+		public static string GetTableCategory(int standardId) => CatPartSrv.GetTable(standardId).Category.Name;
+
+		/// <summary>
+		/// Get the CategoryName of a table
+		/// </summary>
+		/// <param name="tableName">Catalog TableName</param>
+		/// <returns></returns>
+		public static string GetTableCategory(string tableName) => CatPartSrv.GetTable(tableName).Category.Name;
 
 		/// <summary>
 		/// Updata a CatalogTable record. ON YOUR OWN RISK, SHOULD ONLY BE DONE BY 1 PERSON
