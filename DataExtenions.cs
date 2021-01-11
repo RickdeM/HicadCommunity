@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace RDM.HicadCommunity
 {
@@ -762,6 +763,20 @@ namespace RDM.HicadCommunity
 			}
 			// Return the Node
 			return n;
+		}
+
+		private static string GetUidXml(this Facet facet, string xpath)
+		{
+			XmlDocument doc = new XmlDocument();
+			doc.LoadXml(facet.UID);
+			return doc.FirstChild.SelectSingleNode(xpath).Attributes[0].Value;
+		}
+
+		private static string GetUidXml(this Edge edge, string xpath)
+		{
+			XmlDocument doc = new XmlDocument();
+			doc.LoadXml(edge.UID);
+			return doc.FirstChild.SelectSingleNode(xpath).Attributes[0].Value;
 		}
 	}
 }
