@@ -256,6 +256,70 @@ namespace RDM.HicadCommunity
 		public static List<Facet> GetFacets(this Node n) => n.GetPart().Facets;
 
 		/// <summary>
+		/// Get the linked feature of the edge
+		/// </summary>
+		/// <param name="edge"></param>
+		/// <returns></returns>
+		public static Feature GetLinkedFeature(this Edge edge) => edge.GetLinkedProtocolNode().FeatureProtocol.First(x => x.FeatID == edge.GetLinkedFeatureID());
+
+		/// <summary>
+		/// Get the linked feature of the facet
+		/// </summary>
+		/// <param name="facet"></param>
+		/// <returns></returns>
+		public static Feature GetLinkedFeature(this Facet facet) => facet.GetLinkedProtocolNode().FeatureProtocol.First(x => x.FeatID == facet.GetLinkedFeatureID());
+
+		/// <summary>
+		/// Get the linked feature ID of the edge
+		/// </summary>
+		/// <param name="edge"></param>
+		/// <returns></returns>
+		public static int GetLinkedFeatureID(this Edge edge)
+		{
+			try { return Convert.ToInt32(edge.GetUidXml("Own").Split(',').First()); }
+			catch { return default; }
+		}
+
+		/// <summary>
+		/// Get the linked feature ID of the edge
+		/// </summary>
+		/// <param name="facet"></param>
+		/// <returns></returns>
+		public static int GetLinkedFeatureID(this Facet facet)
+		{
+			try { return Convert.ToInt32(facet.GetUidXml("Own").Split(',').First()); }
+			catch { return default; }
+		}
+
+		/// <summary>
+		/// Get the linked protocol Node of the edge (Node where the feature is stored)
+		/// </summary>
+		/// <param name="edge"></param>
+		/// <returns></returns>
+		public static Node GetLinkedProtocolNode(this Edge edge) => Context.ActiveScene.Nodes.First(x => x.UID == edge.GetLinkedProtocolNodeID());
+
+		/// <summary>
+		/// Get the linked protocol Node of the facet (Where the feature is stored)
+		/// </summary>
+		/// <param name="facet"></param>
+		/// <returns></returns>
+		public static Node GetLinkedProtocolNode(this Facet facet) => Context.ActiveScene.Nodes.First(x => x.UID == facet.GetLinkedProtocolNodeID());
+
+		/// <summary>
+		/// Get the linked protocol Node UID of the edge (Where the feature is stored)
+		/// </summary>
+		/// <param name="edge"></param>
+		/// <returns></returns>
+		public static string GetLinkedProtocolNodeID(this Edge edge) => edge.GetUidXml("ProtKrp");
+
+		/// <summary>
+		/// Get the linked protocol Node UID of the facet (Node where the feature is stored)
+		/// </summary>
+		/// <param name="facet"></param>
+		/// <returns></returns>
+		public static string GetLinkedProtocolNodeID(this Facet facet) => facet.GetUidXml("ProtKrp");
+
+		/// <summary>
 		/// Get the material name of the part
 		/// </summary>
 		/// <param name="n">Node to get the material name from</param>
