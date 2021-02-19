@@ -14,6 +14,7 @@
 */
 
 using HiCAD.Data;
+using HiCAD.Interface;
 using ISD.BaseTypes;
 using ISD.CAD.Base;
 using ISD.CAD.Contexts;
@@ -242,11 +243,25 @@ namespace RDM.HicadCommunity
 		}
 
 		/// <summary>
+		/// Get the EdgeIndex of an Edge without self casting
+		/// </summary>
+		/// <param name="edge"></param>
+		/// <returns></returns>
+		public static int GetEdgeIndex(this Edge edge) => ((EdgeImpl)edge).EdgeIndex();
+
+		/// <summary>
 		/// Get all Edges belonging to the part
 		/// </summary>
 		/// <param name="n">Node to use for returning all Edges</param>
 		/// <returns></returns>
 		public static List<Edge> GetEdges(this Node n) => n.GetPart().Edges;
+
+		/// <summary>
+		/// Get the FacetIndex of a Face without self casting
+		/// </summary>
+		/// <param name="face"></param>
+		/// <returns></returns>
+		public static int GetFacetIndex(this Facet face) => ((FacetImpl)face).FacetIndex;
 
 		/// <summary>
 		/// Get all Facets belonging to the part
@@ -829,6 +844,10 @@ namespace RDM.HicadCommunity
 			return n;
 		}
 
+		public static Point2D ToPoint2D(this Point3D point) => new Point2D(point.X, point.Y);
+
+		public static Point3D ToPoint3D(this Point2D point, double z = 0) => new Point3D(point.X, point.Y, z);
+
 		private static string GetUidXml(this Facet facet, string xpath)
 		{
 			XmlDocument doc = new XmlDocument();
@@ -842,5 +861,29 @@ namespace RDM.HicadCommunity
 			doc.LoadXml(edge.UID);
 			return doc.FirstChild.SelectSingleNode(xpath).Attributes[0].Value;
 		}
+
+		private static bool RedrawActive = true;
+
+		public static void RedrawDeactivate(this UnconstrainedContext context)
+		{
+			if (RedrawActive)
+			{
+				context.Configuration.DeactivateRedraw();
+				RedrawActive = false;
+			}
+		}
+
+		public static bool RedrawDeactivated(this UnconstrainedContext context) => RedrawActive == false;
+
+		public static void RedrawActivate(this UnconstrainedContext context)
+		{
+			if (!RedrawActive)
+			{
+				context.Configuration.ActivateRedraw();
+				RedrawActive = true;
+			}
+		}
+
+		public static bool RedrawActivated(this UnconstrainedContext context) => RedrawActive == true;
 	}
 }
