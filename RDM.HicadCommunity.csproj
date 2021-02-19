@@ -77,6 +77,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\HiCAD.Data.dll</HintPath>
     </Reference>
+    <Reference Include="HiCAD.Interface, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\HiCAD.Interface.dll</HintPath>
+    </Reference>
     <Reference Include="ISD.BaseTypes, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.BaseTypes.dll</HintPath>
@@ -149,6 +153,7 @@
     <Compile Include="Interfaces\ICatalogRow.cs" />
     <Compile Include="SmartCatalog.cs" />
     <Compile Include="SmartHelios.cs" />
+    <Compile Include="SmartPath.cs" />
     <Compile Include="SystemAttributes.cs" />
     <Compile Include="DataExtenions.cs" />
     <Compile Include="FileLogger.cs" />
@@ -163,6 +168,7 @@
   <ItemGroup>
     <Content Include="lib\Helios.API.dll" />
     <Content Include="lib\HiCAD.Data.dll" />
+    <Content Include="lib\HiCAD.Interface.dll" />
     <Content Include="lib\ISD.BaseTypes.dll" />
     <Content Include="lib\ISD.CAD.Base.dll" />
     <Content Include="lib\ISD.CAD.Bridge.Helios.dll" />
