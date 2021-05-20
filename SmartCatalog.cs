@@ -63,7 +63,7 @@ namespace RDM.HicadCommunity
 			}
 			catch (Exception ex)
 			{
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				return default;
 			}
 		}
@@ -105,7 +105,7 @@ namespace RDM.HicadCommunity
 			}
 			catch (Exception ex)
 			{
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 			}
 			return objList;
 		}
@@ -222,7 +222,7 @@ namespace RDM.HicadCommunity
 			}
 			catch (Exception ex)
 			{
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				throw;
 			}
 		}
@@ -264,7 +264,7 @@ namespace RDM.HicadCommunity
 			}
 			catch (Exception ex)
 			{
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				return false;
 			}
 		}
@@ -318,7 +318,7 @@ namespace RDM.HicadCommunity
 			}
 			catch (Exception ex)
 			{
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				throw;
 			}
 		}
@@ -378,7 +378,7 @@ namespace RDM.HicadCommunity
 			}
 			catch (Exception ex)
 			{
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				throw;
 			}
 		}

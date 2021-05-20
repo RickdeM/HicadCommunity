@@ -185,7 +185,7 @@ namespace RDM.HicadCommunity
 			}
 			catch (Exception ex)
 			{
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				FireOnExit(ex);
 			}
 		}

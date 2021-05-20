@@ -14,7 +14,6 @@
 */
 
 using HiCAD.Data;
-using HiCAD.Interface;
 using ISD.BaseTypes;
 using ISD.CAD.Base;
 using ISD.CAD.Contexts;
@@ -74,7 +73,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 			}
 			finally
 			{
@@ -120,7 +119,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 			}
 		}
 
@@ -156,7 +155,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				// Return the default value
 				return default;
 			}
@@ -187,7 +186,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				// Return the default value
 				return default;
 			}
@@ -202,13 +201,13 @@ namespace RDM.HicadCommunity
 		{
 			try
 			{
-				using (RegistryKey reg = Registry.LocalMachine.OpenSubKey($"SOFTWARE\\ISD Software und Systeme\\HiCAD\\{context.Version}", true))
+				using (RegistryKey reg = Registry.LocalMachine.OpenSubKey($"SOFTWARE\\ISD Software und Systeme\\HiCAD\\{context.Version}", false))
 					return reg.GetValue("CatDir").ToString();
 			}
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				// Return the default value
 				return default;
 			}
@@ -230,13 +229,13 @@ namespace RDM.HicadCommunity
 		{
 			try
 			{
-				using (RegistryKey reg = Registry.LocalMachine.OpenSubKey($"SOFTWARE\\ISD Software und Systeme\\HiCAD\\{context.Version}", true))
+				using (RegistryKey reg = Registry.LocalMachine.OpenSubKey($"SOFTWARE\\ISD Software und Systeme\\HiCAD\\{context.Version}", false))
 					return reg.GetValue("CfgDbPath").ToString();
 			}
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				// Return the default value
 				return default;
 			}
@@ -442,7 +441,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				// Return the default value
 				return default;
 			}
@@ -488,7 +487,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				// Return the default value
 				return default;
 			}
@@ -694,7 +693,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 				// Return the default value
 				return default;
 			}
@@ -755,7 +754,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 			}
 			finally
 			{
@@ -838,7 +837,7 @@ namespace RDM.HicadCommunity
 			catch (Exception ex)
 			{
 				// Log the error for debugging purposes
-				FileLogger.Log(ex);
+				Logger.Log(ex);
 			}
 			// Return the Node
 			return n;
@@ -862,18 +861,17 @@ namespace RDM.HicadCommunity
 			return doc.FirstChild.SelectSingleNode(xpath).Attributes[0].Value;
 		}
 
+		#region Configuration
+
+		#region flags
+
+		private static bool MessagesActive = true;
 		private static bool RedrawActive = true;
+		private static bool UIActive = true;
 
-		public static void RedrawDeactivate(this UnconstrainedContext context)
-		{
-			if (RedrawActive)
-			{
-				context.Configuration.DeactivateRedraw();
-				RedrawActive = false;
-			}
-		}
+		#endregion flags
 
-		public static bool RedrawDeactivated(this UnconstrainedContext context) => RedrawActive == false;
+		#region Redraw
 
 		public static void RedrawActivate(this UnconstrainedContext context)
 		{
@@ -884,6 +882,71 @@ namespace RDM.HicadCommunity
 			}
 		}
 
-		public static bool RedrawActivated(this UnconstrainedContext context) => RedrawActive == true;
+		public static bool RedrawActivated(this UnconstrainedContext context)
+		{
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+
+			return RedrawActive;
+		}
+
+		public static void RedrawDeactivate(this UnconstrainedContext context)
+		{
+			if (RedrawActive)
+			{
+				context.Configuration.DeactivateRedraw();
+				RedrawActive = false;
+			}
+		}
+
+		public static bool RedrawDeactivated(this UnconstrainedContext context)
+		{
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+
+			return RedrawActive == false;
+		}
+
+		#endregion Redraw
+
+		#region UserInterface
+
+		public static void UIActivate(this UnconstrainedContext context)
+		{
+			if (!UIActive)
+			{
+				context.Configuration.ActivateUserInterface();
+				UIActive = true;
+			}
+		}
+
+		public static bool UIActivated(this UnconstrainedContext context)
+		{
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+
+			return UIActive;
+		}
+
+		public static void UIDeactivate(this UnconstrainedContext context)
+		{
+			if (UIActive)
+			{
+				context.Configuration.DeactivateUserInterface();
+				UIActive = false;
+			}
+		}
+
+		public static bool UIDeactivated(this UnconstrainedContext context)
+		{
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+
+			return UIActive == false;
+		}
+
+		#endregion UserInterface
+
+		#endregion Configuration
 	}
 }
