@@ -135,27 +135,6 @@ namespace RDM.HicadCommunity
 		public static List<Dictionary<string, object>> GetRows(StandardItem si, Dictionary<string, object> find = null) => LoadRows(si.StandardId, find);
 
 		/// <summary>
-		/// Get the DisplayName of a table
-		/// </summary>
-		/// <param name="si">StandardItem which contains the standardId</param>
-		/// <returns></returns>
-		public static string GetTableDisplayName(StandardItem si) => CatPartSrv.GetTable(si.StandardId).DisplayName;
-
-		/// <summary>
-		/// Get the DisplayName of a table
-		/// </summary>
-		/// <param name="standardId">Catalog standardId</param>
-		/// <returns></returns>
-		public static string GetTableDisplayName(int standardId) => CatPartSrv.GetTable(standardId).DisplayName;
-
-		/// <summary>
-		/// Get the DisplayName of a table
-		/// </summary>
-		/// <param name="tableName">Catalog TableName</param>
-		/// <returns></returns>
-		public static string GetTableDisplayName(string tableName) => CatPartSrv.GetTable(tableName).DisplayName;
-
-		/// <summary>
 		/// Get the CategoryName of a table
 		/// </summary>
 		/// <param name="si">StandardItem which contains the standardId</param>
@@ -175,6 +154,48 @@ namespace RDM.HicadCommunity
 		/// <param name="tableName">Catalog TableName</param>
 		/// <returns></returns>
 		public static string GetTableCategory(string tableName) => CatPartSrv.GetTable(tableName).Category.Name;
+
+		/// <summary>
+		/// Get the Category name of a table
+		/// </summary>
+		/// <param name="si">StandardItem which contains the standardId</param>
+		/// <returns></returns>
+		public static string GetTableCategoryDisplayName(StandardItem si) => CatPartSrv.GetTable(si.StandardId).Category.DisplayName;
+
+		/// <summary>
+		/// Get the Category name of a table
+		/// </summary>
+		/// <param name="standardId">Catalog standardId</param>
+		/// <returns></returns>
+		public static string GetTableCategoryDisplayName(int standardId) => CatPartSrv.GetTable(standardId).Category.DisplayName;
+
+		/// <summary>
+		/// Get the Category name of a table
+		/// </summary>
+		/// <param name="tableName">Catalog TableName</param>
+		/// <returns></returns>
+		public static string GetTableCategoryDisplayName(string tableName) => CatPartSrv.GetTable(tableName).Category.DisplayName;
+
+		/// <summary>
+		/// Get the DisplayName of a table
+		/// </summary>
+		/// <param name="si">StandardItem which contains the standardId</param>
+		/// <returns></returns>
+		public static string GetTableDisplayName(StandardItem si) => CatPartSrv.GetTable(si.StandardId).DisplayName;
+
+		/// <summary>
+		/// Get the DisplayName of a table
+		/// </summary>
+		/// <param name="standardId">Catalog standardId</param>
+		/// <returns></returns>
+		public static string GetTableDisplayName(int standardId) => CatPartSrv.GetTable(standardId).DisplayName;
+
+		/// <summary>
+		/// Get the DisplayName of a table
+		/// </summary>
+		/// <param name="tableName">Catalog TableName</param>
+		/// <returns></returns>
+		public static string GetTableDisplayName(string tableName) => CatPartSrv.GetTable(tableName).DisplayName;
 
 		/// <summary>
 		/// Updata a CatalogTable record. ON YOUR OWN RISK, SHOULD ONLY BE DONE BY 1 PERSON
