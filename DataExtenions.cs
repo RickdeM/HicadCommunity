@@ -843,10 +843,27 @@ namespace RDM.HicadCommunity
 			return n;
 		}
 
+		/// <summary>
+		/// Convert a Point to 2D
+		/// </summary>
+		/// <param name="point">Point to be converted</param>
+		/// <returns></returns>
 		public static Point2D ToPoint2D(this Point3D point) => new Point2D(point.X, point.Y);
 
+		/// <summary>
+		/// Convert a Point to 3D
+		/// </summary>
+		/// <param name="point">Point to be converted</param>
+		/// <param name="z">Z value of the point</param>
+		/// <returns></returns>
 		public static Point3D ToPoint3D(this Point2D point, double z = 0) => new Point3D(point.X, point.Y, z);
 
+		/// <summary>
+		/// Get the UID from an Facet (Stores feature link)
+		/// </summary>
+		/// <param name="facet"></param>
+		/// <param name="xpath"></param>
+		/// <returns></returns>
 		private static string GetUidXml(this Facet facet, string xpath)
 		{
 			XmlDocument doc = new XmlDocument();
@@ -854,6 +871,12 @@ namespace RDM.HicadCommunity
 			return doc.FirstChild.SelectSingleNode(xpath).Attributes[0].Value;
 		}
 
+		/// <summary>
+		/// Get the UID from an Edge (Stores feature link)
+		/// </summary>
+		/// <param name="edge"></param>
+		/// <param name="xpath"></param>
+		/// <returns></returns>
 		private static string GetUidXml(this Edge edge, string xpath)
 		{
 			XmlDocument doc = new XmlDocument();
@@ -865,45 +888,158 @@ namespace RDM.HicadCommunity
 
 		#region flags
 
+		/// <summary>
+		/// Flag for status of the HiCAD messages
+		/// </summary>
 		private static bool MessagesActive = true;
+
+		/// <summary>
+		/// Flag for status of the Configuration Redraw
+		/// </summary>
 		private static bool RedrawActive = true;
+
+		/// <summary>
+		/// Flag for status of the UI
+		/// </summary>
 		private static bool UIActive = true;
 
 		#endregion flags
 
+		#region Messages
+
+		/// <summary>
+		/// Activate the HiCAD Messages
+		/// </summary>
+		/// <param name="context"></param>
+		public static void MessagesActivate(this UnconstrainedContext context)
+		{
+			// Make sure the context is available
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			// Can only be Activated when its Deactivated
+			if (!MessagesActive)
+			{
+				// Activate the HiCAD Messages
+				context.Configuration.ActivateMessages();
+				// Set the flag
+				MessagesActive = true;
+			}
+		}
+
+		/// <summary>
+		/// Check if the HiCAD Messages are Activated
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
+		public static bool MessagesActivated(this UnconstrainedContext context)
+		{
+			// Make sure the context is available
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			// Return if the HiCAD Messages are Activated
+			return MessagesActive;
+		}
+
+		/// <summary>
+		/// Deactivate the HiCAD Messages
+		/// </summary>
+		/// <param name="context"></param>
+		public static void MessagesDeactivate(this UnconstrainedContext context)
+		{
+			// Make sure the context is available
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			// Can only be Deactivated when its Activated
+			if (MessagesActive)
+			{
+				// Deactivate the HiCAD Messages
+				context.Configuration.DeactivateRedraw();
+				// Set the flag
+				MessagesActive = false;
+			}
+		}
+
+		/// <summary>
+		/// Check if the HiCAD Messages are Deactivated
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
+		public static bool MessagesDeactivated(this UnconstrainedContext context)
+		{
+			// Make sure the context is available
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			// Return if the HiCAD Messages are Deactivated
+			return MessagesActive == false;
+		}
+
+		#endregion Messages
+
 		#region Redraw
 
+		/// <summary>
+		/// Activate the Redraw (3D renderings)
+		/// </summary>
+		/// <param name="context"></param>
 		public static void RedrawActivate(this UnconstrainedContext context)
 		{
+			// Make sure the context is available
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			// Can only be Activated when its Deactivated
 			if (!RedrawActive)
 			{
+				// Activate the redraw (3D renderings)
 				context.Configuration.ActivateRedraw();
+				// Set the flag
 				RedrawActive = true;
 			}
 		}
 
+		/// <summary>
+		/// Check if 'Redraw' (3D renderings) is Activated
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
 		public static bool RedrawActivated(this UnconstrainedContext context)
 		{
+			// Make sure the context is available
 			if (context is null)
 				throw new ArgumentNullException(nameof(context));
-
+			// Return if the Redraw is Activated
 			return RedrawActive;
 		}
 
+		/// <summary>
+		/// Deactivate the Redraw (3D renderings)
+		/// </summary>
+		/// <param name="context"></param>
 		public static void RedrawDeactivate(this UnconstrainedContext context)
 		{
+			// Make sure the context is available
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			// Can only be Deactivated when its Activated
 			if (RedrawActive)
 			{
+				// Deactivate the redraw (3D renderings)
 				context.Configuration.DeactivateRedraw();
+				// Set the flag
 				RedrawActive = false;
 			}
 		}
 
+		/// <summary>
+		/// Check if 'Redraw' (3D renderings) is Deactivated
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
 		public static bool RedrawDeactivated(this UnconstrainedContext context)
 		{
+			// Make sure the context is available
 			if (context is null)
 				throw new ArgumentNullException(nameof(context));
-
+			// Return if the Redraw is Deactivated
 			return RedrawActive == false;
 		}
 
@@ -911,37 +1047,69 @@ namespace RDM.HicadCommunity
 
 		#region UserInterface
 
+		/// <summary>
+		/// Activate the UI
+		/// </summary>
+		/// <param name="context"></param>
 		public static void UIActivate(this UnconstrainedContext context)
 		{
+			// Make sure the context is available
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			// Can only be Activated when its Deactivated
 			if (!UIActive)
 			{
+				// Activate the UI
 				context.Configuration.ActivateUserInterface();
+				// Set the flag
 				UIActive = true;
 			}
 		}
 
+		/// <summary>
+		/// Check if the UI is Activated
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
 		public static bool UIActivated(this UnconstrainedContext context)
 		{
+			// Make sure the context is available
 			if (context is null)
 				throw new ArgumentNullException(nameof(context));
-
+			// Return if the UI is Activated
 			return UIActive;
 		}
 
+		/// <summary>
+		///
+		/// </summary>
+		/// <param name="context"></param>
 		public static void UIDeactivate(this UnconstrainedContext context)
 		{
+			// Make sure the context is available
+			if (context is null)
+				throw new ArgumentNullException(nameof(context));
+			// Can only be Deactivated when its Activated
 			if (UIActive)
 			{
+				// Deactivate the UI
 				context.Configuration.DeactivateUserInterface();
+				// Set the flag
 				UIActive = false;
 			}
 		}
 
+		/// <summary>
+		/// Check if the UI is Deactivated
+		/// </summary>
+		/// <param name="context"></param>
+		/// <returns></returns>
 		public static bool UIDeactivated(this UnconstrainedContext context)
 		{
+			// Make sure the context is available
 			if (context is null)
 				throw new ArgumentNullException(nameof(context));
-
+			// Return if the UI is Deactivated
 			return UIActive == false;
 		}
 
