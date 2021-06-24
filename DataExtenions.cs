@@ -371,36 +371,80 @@ namespace RDM.HicadCommunity
 		}
 
 		/// <summary>
+		/// Import a DXF from a byte
+		/// </summary>
+		/// <param name="scene">The scene where the object needs to imported in</param>
+		/// <param name="ms">The file which is stored in a MemoryStream</param>
+		/// <param name="autoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
+		/// <param name="setScaleIndependent">Make the figure scale independent</param>
+		/// <param name="configurationFile">Import Configuration file, default is 'C:\HiCAD\sys\acadhcad.dat'</param>
+		/// <returns></returns>
+		public static Figure ImportDxfDwg(
+			this Scene scene,
+			MemoryStream ms,
+			bool autoMoveToZeroPoint = false,
+			bool setScaleIndependent = false,
+			string configurationFile = null)
+		{
+			// Create a Filename
+			string tmpFile = Path.GetTempFileName();
+			try
+			{
+				// Create a filestream
+				using (FileStream fs = new FileStream(tmpFile, FileMode.Create, FileAccess.Write))
+				{
+					// Write to the file
+					ms.WriteTo(fs);
+				}
+				// Import the DXF/DWG
+				Figure result = scene.ImportDxfDwg(tmpFile, autoMoveToZeroPoint, setScaleIndependent, configurationFile);
+				// return the result
+				return result;
+			}
+			catch (Exception)
+			{
+				return default;
+			}
+			finally
+			{
+				// Check if the file exists
+				if (File.Exists(tmpFile))
+					// Delete the temporary file
+					File.Delete(tmpFile);
+			}
+		}
+
+		/// <summary>
 		/// Import a DXF/DWG file into the provided scene
 		/// </summary>
 		/// <param name="scene">The scane where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
-		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
-		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
+		/// <param name="autoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
+		/// <param name="setScaleIndependent">Make the figure scale independent</param>
 		/// <param name="configurationFile">Import Configuration file, default is 'C:\HiCAD\sys\acadhcad.dat'</param>
 		/// <returns></returns>
 		public static Figure ImportDxfDwg(
 			this Scene scene,
 			FileInfo file,
-			bool AutoMoveToZeroPoint = false,
-			bool SetScaleIndependent = false,
+			bool autoMoveToZeroPoint = false,
+			bool setScaleIndependent = false,
 			string configurationFile = null
-		) => scene.ImportDxfDwg(file.FullName, AutoMoveToZeroPoint, SetScaleIndependent, configurationFile);
+		) => scene.ImportDxfDwg(file.FullName, autoMoveToZeroPoint, setScaleIndependent, configurationFile);
 
 		/// <summary>
 		/// Import a DXF/DWG file into the provided scene
 		/// </summary>
 		/// <param name="scene">The scene where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
-		/// <param name="AutoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
-		/// <param name="SetScaleIndependent">Make the figure scale independent</param>
+		/// <param name="autoMoveToZeroPoint">Automatically move the imported figure from BottomLeft to 0,0</param>
+		/// <param name="setScaleIndependent">Make the figure scale independent</param>
 		/// <param name="configurationFile">Import Configuration file, default is 'C:\HiCAD\sys\acadhcad.dat'</param>
 		/// <returns></returns>
 		public static Figure ImportDxfDwg(
 			this Scene scene,
 			string file,
-			bool AutoMoveToZeroPoint = false,
-			bool SetScaleIndependent = false,
+			bool autoMoveToZeroPoint = false,
+			bool setScaleIndependent = false,
 			string configurationFile = null)
 		{
 			// Note:
@@ -424,7 +468,7 @@ namespace RDM.HicadCommunity
 				) as FigureImpl;
 				result.DrawingSheet = Context.ActiveScene.ActiveDrawingSheet;
 				// Check if the Figure should me moved as close the the Zero point
-				if (AutoMoveToZeroPoint)
+				if (autoMoveToZeroPoint)
 				{
 					// Only move the figure when there is a distance between them
 					if (result.BoundingRect.BottomLeft.GetDistance(new Point2D()) > 0)
@@ -432,7 +476,7 @@ namespace RDM.HicadCommunity
 						result.Move(new Vector2D(result.BoundingRect.BottomLeft, new Point2D()));
 				}
 				// Check if scale independent should be enablead
-				if (SetScaleIndependent)
+				if (setScaleIndependent)
 					// Make
 					result.SetScaleIndependent(new Vector2D());
 				// Return the imported object
@@ -444,6 +488,42 @@ namespace RDM.HicadCommunity
 				Logger.Log(ex);
 				// Return the default value
 				return default;
+			}
+		}
+
+		/// <summary>
+		/// Import a STP/STEP file into the provided scene
+		/// </summary>
+		/// <param name="scene">The scene where the object needs to imported in</param>
+		/// <param name="ms">The file which is stored in a MemoryStream</param>
+		/// <returns></returns>for movement</param>
+		public static Node ImportStp(this Scene scene, MemoryStream ms)
+		{
+			// Create a Filename
+			string tmpFile = Path.GetTempFileName();
+			try
+			{
+				// Create a filestream
+				using (FileStream fs = new FileStream(tmpFile, FileMode.Create, FileAccess.Write))
+				{
+					// Write to the file
+					ms.WriteTo(fs);
+				}
+				// Import the DXF/DWG
+				Node result = scene.ImportStp(tmpFile);
+				// return the result
+				return result;
+			}
+			catch (Exception)
+			{
+				return default;
+			}
+			finally
+			{
+				// Check if the file exists
+				if (File.Exists(tmpFile))
+					// Delete the temporary file
+					File.Delete(tmpFile);
 			}
 		}
 
