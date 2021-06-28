@@ -85,6 +85,15 @@ namespace RDM.HicadCommunity
 		}
 
 		/// <summary>
+		/// Affine a point give 2 points
+		/// </summary>
+		/// <param name="p1">Start point</param>
+		/// <param name="u">Affine value 0.0 to 1.0 </param>
+		/// <param name="p2">End point</param>
+		/// <returns></returns>
+		public static Point3D Affine(this Point3D p1, double u, Point3D p2) => Point3D.Affine(p1, u, p2);
+
+		/// <summary>
 		/// Close all opened drawings
 		/// </summary>
 		/// <param name="context">Context which contains all Scenes</param>
@@ -256,6 +265,40 @@ namespace RDM.HicadCommunity
 		public static List<Edge> GetEdges(this Node n) => n.GetPart().Edges;
 
 		/// <summary>
+		/// Get all references Nodes in the active drawing
+		/// </summary>
+		/// <param name="scene"></param>
+		/// <returns></returns>
+		public static List<Node> GetExternalReferencedNodes(this Scene scene)
+		{
+			try
+			{
+				// Check if a scene if provided
+				if (scene == null)
+					// Too bad nothing provided
+					return null;
+				// Check if the drawing is active
+				if (!scene.Active)
+					// Activate the drawing in order to acces the nodes
+					scene.Activate();
+				// Get all Linked Int/Ext reference Nodes
+				List<Node> LinkedNodesRef = Context.ActiveScene.Nodes.Where(x =>
+					x.IsReferencedExternal()
+				).GroupBy(
+					x => x.Reference.Id
+				).Select(
+					x => x.First()
+				).ToList();
+				LinkedNodesRef.Reverse();
+				return LinkedNodesRef;
+			}
+			catch
+			{
+				return default;
+			}
+		}
+
+		/// <summary>
 		/// Get the FacetIndex of a Face without self casting
 		/// </summary>
 		/// <param name="face"></param>
@@ -346,6 +389,14 @@ namespace RDM.HicadCommunity
 		/// <param name="n">Node to get the material size from</param>
 		/// <returns></returns>
 		public static double GetMaterialSize(this Node n) => n.AttributeSet.GetValue<double>(SystemAttributes.Height);
+
+		/// <summary>
+		/// Get the midpoint between two points
+		/// </summary>
+		/// <param name="p1">Start point</param>
+		/// <param name="p2">End point</param>
+		/// <returns></returns>
+		public static Point3D GetMidPoint(this Point3D p1, Point3D p2) => p1.Affine(0.5, p2);
 
 		/// <summary>
 		/// Get The Part
@@ -658,6 +709,35 @@ namespace RDM.HicadCommunity
 			// Return the Node
 			return node;
 		}
+
+		/// <summary>
+		/// Move the CoordinateSystem
+		/// </summary>
+		/// <param name="coor">Coor to be moved</param>
+		/// <param name="vec">Vector for transformation</param>
+		/// <returns></returns>
+		public static CoordinateSystem Move(this CoordinateSystem coor, Vector3D vec)
+		{
+			coor.Move(new Transformation(vec));
+			return coor;
+		}
+
+		/// <summary>
+		/// Move the CoordinateSystem
+		/// </summary>
+		/// <param name="coor">Coor to be moved</param>
+		/// <param name="firstPoint">First point for Vector creation</param>
+		/// <param name="secondPoint">Second point for Vector creation</param>
+		/// <returns></returns>
+		public static CoordinateSystem Move(this CoordinateSystem coor, Point3D firstPoint, Point3D secondPoint) => coor.Move(new Vector3D(firstPoint, secondPoint));
+
+		/// <summary>
+		/// Move the CoordinateSystem
+		/// </summary>
+		/// <param name="coor">Coor to be moved</param>
+		/// <param name="endPoint">End point for Vector creation, start=0,0,0</param>
+		/// <returns></returns>
+		public static CoordinateSystem Move(this CoordinateSystem coor, Point3D endPoint) => coor.Move(new Vector3D(new Point3D(), endPoint));
 
 		/// <summary>
 		/// Open a new SceneSlot, or load a drawing in a new slot
