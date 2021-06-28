@@ -1083,6 +1083,13 @@ namespace RDM.HicadCommunity
 			return doc.FirstChild.SelectSingleNode(xpath).Attributes[0].Value;
 		}
 
+		/// <summary>
+		/// Get all Api edges from a 2D path
+		/// </summary>
+		/// <param name="p">Path to get all edges grom</param>
+		/// <returns></returns>
+		public static List<ISD.Core.API.Edge> GetApiEdges(this ISD.CAD.Data.Path2D p) => p.GetEdges().Select(x => x.Edge).ToList();
+
 		#region Configuration
 
 		#region flags
