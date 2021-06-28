@@ -20,6 +20,7 @@ using ISD.CAD.Contexts;
 using ISD.CAD.Contexts.Settings;
 using ISD.CAD.Data;
 using ISD.CAD.IO;
+using ISD.CAD.SheetMetal;
 using ISD.Math;
 using ISD.Scripting;
 using Microsoft.Win32;
@@ -92,6 +93,22 @@ namespace RDM.HicadCommunity
 		/// <param name="p2">End point</param>
 		/// <returns></returns>
 		public static Point3D Affine(this Point3D p1, double u, Point3D p2) => Point3D.Affine(p1, u, p2);
+
+		/// <summary>
+		/// Apply a Bending Simulation on a SheetMetal Node
+		/// </summary>
+		/// <param name="n"></param>
+		/// <param name="edge"></param>
+		/// <returns></returns>
+		public static int ApplyBendingSimulation(this Node n, Edge edge = null)
+		{
+			Node node = n.GetSheetMetalMainPart();
+			if (node == null)
+				throw new Exception("SheetMetal node could not be found");
+			// Apply bending simulation
+			(edge != null ? new BendingSimulation(edge) : new BendingSimulation()).Apply(node);
+			return n.FeatureProtocol.Last().FeatID;
+		}
 
 		/// <summary>
 		/// Close all opened drawings
@@ -419,6 +436,28 @@ namespace RDM.HicadCommunity
 				result.AddRange(n.GetProductStructure());
 			// Return Ordered list: Ridder Pos > Item Number
 			return result.OrderBy(x => x.Properties.ItemNumber);
+		}
+
+		/// <summary>
+		/// Get the main part of a SheetMetal, resolve the issue that a flenge/bendzone is selected
+		/// </summary>
+		/// <param name="n"></param>
+		/// <returns></returns>
+		public static Node GetSheetMetalMainPart(this Node n)
+		{
+			// Make sure a value is provided
+			if (n == null)
+				return null;
+			// Current type must be a SheetMetal type
+			if (n.Type != NodeType.SheetMetal)
+				return null;
+			// Check if there is a parent which is a Sheetmetal part
+			// Note: Sheetmetal inside a Sheetmetal part is illegal
+			if (n.Type == NodeType.SheetMetal && n.Parent != null && n.Parent.Type == NodeType.SheetMetal)
+				// return its parent
+				return n.Parent;
+			// return given node
+			return n;
 		}
 
 		/// <summary>
