@@ -113,6 +113,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.IO.dll</HintPath>
     </Reference>
+    <Reference Include="ISD.CAD.Modifiers, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\ISD.CAD.Modifiers.dll</HintPath>
+    </Reference>
     <Reference Include="ISD.CAD.PartSrv, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.PartSrv.dll</HintPath>
@@ -177,6 +181,7 @@
     <Content Include="lib\ISD.CAD.Data.dll" />
     <Content Include="lib\ISD.CAD.Interface.dll" />
     <Content Include="lib\ISD.CAD.IO.dll" />
+    <Content Include="lib\ISD.CAD.Modifiers.dll" />
     <Content Include="lib\ISD.CAD.PartSrv.dll" />
     <Content Include="lib\ISD.Core.API.dll" />
     <Content Include="lib\ISD.Math.dll" />
