@@ -14,8 +14,10 @@
 */
 
 using HiCAD.Data;
+using ISD.CAD.Contexts;
 using ISD.CAD.Data;
 using ISD.CAD.Interface;
+using ISD.Scripting;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -28,6 +30,11 @@ namespace RDM.HicadCommunity
 	/// </summary>
 	public static class SmartSelection
 	{
+		/// <summary>
+		/// Get the HiCAD Context
+		/// </summary>
+		private static UnconstrainedContext Context => ScriptBase.BaseContext as UnconstrainedContext;
+
 		/// <summary>
 		/// This is the Exception message when user is canceling the selecting with for example: ESC
 		/// </summary>
@@ -100,7 +107,16 @@ namespace RDM.HicadCommunity
 		/// Start the (multiple) selection, SystemCallbacks is implemented!
 		/// </summary>
 		[DebuggerStepThrough()]
-		public static void Start() => SystemCallbacks.Call(StartCall);
+		public static void Start()
+		{
+			// Check if a drawing is open
+			if (Context.ActiveScene != null)
+				// Start the selection
+				SystemCallbacks.Call(StartCall);
+			else
+				// No scene active, Clear selection
+				Clear();
+		}
 
 		/// <summary>
 		/// When te routine is stopped call all linked events
