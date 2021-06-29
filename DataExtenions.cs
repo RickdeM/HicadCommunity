@@ -1090,6 +1090,28 @@ namespace RDM.HicadCommunity
 		/// <returns></returns>
 		public static List<ISD.Core.API.Edge> GetApiEdges(this ISD.CAD.Data.Path2D p) => p.GetEdges().Select(x => x.Edge).ToList();
 
+		/// <summary>
+		/// Get the StandardItem of a Node
+		/// </summary>
+		/// <param name="n"></param>
+		/// <returns></returns>
+		public static StandardItem GetStandardItem(this Node n)
+		{
+			try
+			{
+				// Get the Item ID (Record)
+				int itemID = n.AttributeSet.GetValue<int>("ITEMID");
+				// Get the Table ID
+				int tableID = n.AttributeSet.GetValue<int>("TABLEID");
+				// Return the StandardItem
+				return new StandardItem(tableID, itemID);
+			}
+			catch (Exception)
+			{
+				return null;
+			}
+		}
+
 		#region Configuration
 
 		#region flags
