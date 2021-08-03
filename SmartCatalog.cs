@@ -198,9 +198,30 @@ namespace RDM.HicadCommunity
 		public static string GetTableDisplayName(string tableName) => CatPartSrv.GetTable(tableName).DisplayName;
 
 		/// <summary>
+		/// Get the Name of a table
+		/// </summary>
+		/// <param name="si">StandardItem which contains the standardId</param>
+		/// <returns></returns>
+		public static string GetTablName(StandardItem si) => CatPartSrv.GetTable(si.StandardId).Name;
+
+		/// <summary>
+		/// Get the Name of a table
+		/// </summary>
+		/// <param name="standardId">Catalog standardId</param>
+		/// <returns></returns>
+		public static string GetTableName(int standardId) => CatPartSrv.GetTable(standardId).Name;
+
+		/// <summary>
+		/// Get the Name of a table
+		/// </summary>
+		/// <param name="tableName">Catalog TableName</param>
+		/// <returns></returns>
+		public static string GetTableName(string tableName) => CatPartSrv.GetTable(tableName).Name;
+
+		/// <summary>
 		/// Updata a CatalogTable record. ON YOUR OWN RISK, SHOULD ONLY BE DONE BY 1 PERSON
 		/// </summary>
-		/// <param name="si">StandardItem for finding the record</param>
+		/// <param name="tableName">table name for finding the record</param>
 		/// <param name="values"></param>
 		public static Dictionary<string, object> InsertRow(string tableName, Dictionary<string, object> values)
 		{

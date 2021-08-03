@@ -167,7 +167,6 @@
     <Compile Include="WalkingPath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartSelection.cs" />
-    <Compile Include="test.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Helios.API.dll" />
