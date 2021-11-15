@@ -72,74 +72,92 @@
     <Reference Include="Helios.API, Version=15.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Helios.API.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="HiCAD.Data, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\HiCAD.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="HiCAD.Interface, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\HiCAD.Interface.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.BaseTypes, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.BaseTypes.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.Base, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.Base.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.Bridge.Helios, Version=17.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.Bridge.Helios.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.Contexts, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.Contexts.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.Creators, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.Creators.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.Data, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.Data.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.Interface, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.Interface.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.IO, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.IO.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.Modifiers, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.Modifiers.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.PartSrv, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.PartSrv.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.Core.API, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.Core.API.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.Math, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.Math.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.PDM.API, Version=15.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.PDM.API.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.Scripting, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.Scripting.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="ISD.Utilities, Version=0.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.Utilities.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
