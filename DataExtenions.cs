@@ -586,7 +586,7 @@ namespace RDM.HicadCommunity
 		/// </summary>
 		/// <param name="scene">The scene where the object needs to imported in</param>
 		/// <param name="ms">The file which is stored in a MemoryStream</param>
-		/// <returns></returns>for movement</param>
+		/// <returns></returns>
 		public static Node ImportStp(this Scene scene, MemoryStream ms)
 		{
 			// Create a Filename
@@ -622,7 +622,7 @@ namespace RDM.HicadCommunity
 		/// </summary>
 		/// <param name="scene">The scane where the object needs to imported in</param>
 		/// <param name="file">The file which needs to be imported in the scene</param>
-		/// <returns></returns>for movement</param>
+		/// <returns></returns>
 		public static Node ImportStp(this Scene scene, FileInfo file) => scene.ImportStp(file.FullName);
 
 		/// <summary>

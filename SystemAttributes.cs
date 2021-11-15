@@ -256,7 +256,7 @@ namespace RDM.HicadCommunity
 		public const string DistanceToleranceForCalculationOfActualSurfaceArea = "§CoatedSurfaceAreaDist";
 
 		/// <summary>
-		/// Document master (Part <-> Part geometry)
+		/// Document master (Part to Part geometry)
 		/// </summary>
 		public const string DocumentMaster = "$DK";
 
