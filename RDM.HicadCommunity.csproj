@@ -70,11 +70,6 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Helios.API, Version=15.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Helios.API.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="HiCAD.Data, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\HiCAD.Data.dll</HintPath>
@@ -93,11 +88,6 @@
     <Reference Include="ISD.CAD.Base, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.CAD.Base.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ISD.CAD.Bridge.Helios, Version=17.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\ISD.CAD.Bridge.Helios.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="ISD.CAD.Contexts, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
@@ -145,11 +135,6 @@
       <HintPath>lib\ISD.Math.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="ISD.PDM.API, Version=15.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\ISD.PDM.API.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ISD.Scripting, Version=17.0.0.0, Culture=neutral, PublicKeyToken=bb553eeeaa4136af, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\ISD.Scripting.dll</HintPath>
@@ -176,7 +161,6 @@
     <Compile Include="Logger.cs" />
     <Compile Include="Interfaces\ICatalogRow.cs" />
     <Compile Include="SmartCatalog.cs" />
-    <Compile Include="SmartHelios.cs" />
     <Compile Include="SmartPath.cs" />
     <Compile Include="SystemAttributes.cs" />
     <Compile Include="DataExtenions.cs" />
@@ -188,12 +172,10 @@
     <Compile Include="SmartSelection.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\Helios.API.dll" />
     <Content Include="lib\HiCAD.Data.dll" />
     <Content Include="lib\HiCAD.Interface.dll" />
     <Content Include="lib\ISD.BaseTypes.dll" />
     <Content Include="lib\ISD.CAD.Base.dll" />
-    <Content Include="lib\ISD.CAD.Bridge.Helios.dll" />
     <Content Include="lib\ISD.CAD.Contexts.dll" />
     <Content Include="lib\ISD.CAD.Creators.dll" />
     <Content Include="lib\ISD.CAD.Data.dll" />
@@ -203,7 +185,6 @@
     <Content Include="lib\ISD.CAD.PartSrv.dll" />
     <Content Include="lib\ISD.Core.API.dll" />
     <Content Include="lib\ISD.Math.dll" />
-    <Content Include="lib\ISD.PDM.API.dll" />
     <Content Include="lib\ISD.Scripting.dll" />
     <Content Include="lib\ISD.Utilities.dll" />
   </ItemGroup>
