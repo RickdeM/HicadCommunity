@@ -142,6 +142,13 @@ namespace RDM.HicadCommunity
 		public static string GetTableCategory(StandardItem si) => CatPartSrv.GetTable(si.StandardId).Category.Name;
 
 		/// <summary>
+		/// Get the CatalogName of a table catalog
+		/// </summary>
+		/// <param name="si">StandardItem which contains the standardId</param>
+		/// <returns></returns>
+		public static string GetTableCatalog(StandardItem si) => CatPartSrv.GetTable(si.StandardId).Catalog.Name;
+
+		/// <summary>
 		/// Get the CategoryName of a table
 		/// </summary>
 		/// <param name="standardId">Catalog standardId</param>
