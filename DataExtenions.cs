@@ -49,7 +49,14 @@ namespace RDM.HicadCommunity
 		public static SceneSlot Activate(this SceneSlot slot, UpdatePartReferences update)
 		{
 			// Activate the scene
-			slot.Scene?.Activate(update);
+			if (slot.Scene == null)
+			{
+				slot.Activate();
+			}
+			else
+			{
+				slot.Scene?.Activate(update);
+			}
 			// Return the provided SceneSlot
 			return slot;
 		}
@@ -794,7 +801,8 @@ namespace RDM.HicadCommunity
 				);
 				// Return the created scene
 				return context.ActiveScene;
-			} else
+			}
+			else
 			{
 				// File already exists, look for matching names
 				// Name of the Scene is either fully defined, or filename withouth any extension
@@ -816,7 +824,8 @@ namespace RDM.HicadCommunity
 						slotExact.Activate(update);
 						// Return the scene
 						return slotExact.Scene;
-					} else
+					}
+					else
 					{
 						// No exactt match is found, check each slot
 						foreach (SceneSlot slot in slots)
@@ -960,7 +969,8 @@ namespace RDM.HicadCommunity
 			{
 				if (attrSet.Contains(name))
 					attrSet.Remove(name);
-			} else
+			}
+			else
 			{
 				// Check the type of the value
 				switch (value)
