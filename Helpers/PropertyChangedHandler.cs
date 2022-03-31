@@ -29,7 +29,7 @@ namespace RDM.HicadCommunity.Helpers
 		protected readonly Dispatcher Dispatcher;
 
 		/// <summary>
-		/// Create new PropertyChagnedHandler
+		/// Create new PropertyChangedHandler
 		/// </summary>
 		public PropertyChangedHandler()
 		{
