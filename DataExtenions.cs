@@ -325,7 +325,7 @@ namespace RDM.HicadCommunity
 		/// </summary>
 		/// <param name="n">Node to use for returning all Facets</param>
 		/// <returns></returns>
-		public static List<Facet> GetFacets(this Node n) => n.GetPart().Facets;
+		public static List<Facet> GetFacets(this Node n) => n.GetPart().Facets.Where(x => x != null && x.Exists).ToList();
 
 		/// <summary>
 		/// Get the linked feature of the edge
