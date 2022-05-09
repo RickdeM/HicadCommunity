@@ -166,7 +166,6 @@
     <Compile Include="DataExtenions.cs" />
     <Compile Include="Helpers\PropertyChangedHandler.cs" />
     <Compile Include="Helpers\TrulyObservableCollection.cs" />
-    <Compile Include="Helpers\XmlSync.cs" />
     <Compile Include="WalkingPath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartSelection.cs" />
