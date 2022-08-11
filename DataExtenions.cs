@@ -839,7 +839,7 @@ namespace RDM.HicadCommunity
 			if (MessagesActive)
 			{
 				// Deactivate the HiCAD Messages
-				context.Configuration.DeactivateRedraw();
+				context.Configuration.DeactivateMessages();
 				// Set the flag
 				MessagesActive = false;
 			}

@@ -94,6 +94,8 @@ namespace RDM.HicadCommunity
 					throw new Exception("Provided Scene is not activated");
 				// Load the STP File
 				Node result = FileIO.Load(file, new StepImportSettings()) as Node;
+				// Update browser
+				Context.EnforceBrowserUpdate();
 				// Return the imported object
 				return result;
 			} catch (Exception ex)
@@ -132,6 +134,8 @@ namespace RDM.HicadCommunity
 				}
 				// Import the DXF/DWG
 				Figure result = scene.ImportDxfDwg(tmpFile, autoMoveToZeroPoint, setScaleIndependent, configurationFile);
+				// Update browser
+				Context.EnforceBrowserUpdate();
 				// return the result
 				return result;
 			} catch (Exception)
@@ -188,6 +192,8 @@ namespace RDM.HicadCommunity
 					file,
 					string.IsNullOrEmpty(configurationFile) ? new DXFImportSettings() : new DXFImportSettings() { ConfigurationFile = configurationFile }
 				) as FigureImpl;
+				// Update browser
+				Context.EnforceBrowserUpdate();
 				result.DrawingSheet = Context.ActiveScene.ActiveDrawingSheet;
 				// Check if the Figure should me moved as close the the Zero point
 				if (autoMoveToZeroPoint)
