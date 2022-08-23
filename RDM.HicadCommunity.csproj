@@ -190,5 +190,8 @@
     <Content Include="lib\ISD.Scripting.dll" />
     <Content Include="lib\ISD.Utilities.dll" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DataExtenions.Context.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
