@@ -637,5 +637,21 @@ namespace RDM.HicadCommunity
 		{
 			return scene.Nodes.Where(x => x.Name == name).ToList();
 		}
+
+		/// <summary>
+		/// Get the Mass center
+		/// </summary>
+		/// <param name="n"></param>
+		/// <param name="withSubParts">Include sub parts</param>
+		/// <returns></returns>
+		public static Point3D GetMassCenter(this Node n, bool withSubParts) => NodeMassProperties.Calculate(n, withSubParts).MassCenter;
+
+		/// <summary>
+		/// Get the Volumne center
+		/// </summary>
+		/// <param name="n"></param>
+		/// <param name="withSubParts">Include sub parts</param>
+		/// <returns></returns>
+		public static Point3D GetVolumeCenter(this Node n, bool withSubParts) => NodeMassProperties.Calculate(n, withSubParts).VolumeCenter;
 	}
 }

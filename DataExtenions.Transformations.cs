@@ -73,8 +73,11 @@ namespace RDM.HicadCommunity
 		/// <returns></returns>
 		public static T Move<T>(this T node, Vector3D vec) where T : Node
 		{
-			// Move the Node
-			new Transformation(vec).Apply(node);
+			if (vec.Length > 0)
+			{
+				// Move the Node
+				new Transformation(vec).Apply(node);
+			}
 			// Return the Node
 			return node;
 		}
