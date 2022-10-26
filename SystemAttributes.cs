@@ -13,6 +13,8 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+using System.CodeDom;
+
 namespace RDM.HicadCommunity
 {
 	/// <summary>
@@ -701,6 +703,11 @@ namespace RDM.HicadCommunity
 		public const string SectionModulusWz = "WZ";
 
 		/// <summary>
+		/// Semi-finished product Item ID
+		/// </summary>
+		public const string SemifinishedItem = "ITEMID";
+
+		/// <summary>
 		/// Semi-finished product article master
 		/// </summary>
 		public const string SemifinishedProductArticleMaster = "$RBK";
@@ -714,6 +721,11 @@ namespace RDM.HicadCommunity
 		/// Semi-finished products
 		/// </summary>
 		public const string SemifinishedProducts = "#BT";
+
+		/// <summary>
+		/// Semi-finished product Table ID
+		/// </summary>
+		public const string SemifinishedTable = "TABLEID";
 
 		/// <summary>
 		/// Set ID for boltings
