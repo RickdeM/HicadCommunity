@@ -128,7 +128,7 @@ namespace RDM.HicadCommunity
 		/// </summary>
 		/// <param name="n">Node to use for returning all Edges</param>
 		/// <returns></returns>
-		public static List<Edge> GetEdges(this Node n) => n.GetPart().Edges;
+		public static List<Edge> GetEdges(this Node n) => n.GetPart().Edges.Where(x => x.Exists).ToList();
 
 		/// <summary>
 		/// Get all references Nodes in the active drawing
