@@ -5,6 +5,7 @@ using ISD.CAD.Data;
 using ISD.Math;
 using Microsoft.Win32;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace RDM.HicadCommunity
@@ -139,6 +140,7 @@ namespace RDM.HicadCommunity
 		/// </summary>
 		/// <param name="context">Current Context</param>
 		/// <returns></returns>
+		[DebuggerStepThrough]
 		public static string GetCatalogDirectory(this UnconstrainedContext context)
 		{
 			try
@@ -160,6 +162,7 @@ namespace RDM.HicadCommunity
 		/// </summary>
 		/// <param name="context">Current Context</param>
 		/// <returns></returns>
+		[DebuggerStepThrough]
 		public static string GetCfgdbDirectory(this UnconstrainedContext context) => Path.GetDirectoryName(context.GetCfgdbFile());
 
 		/// <summary>
@@ -167,6 +170,7 @@ namespace RDM.HicadCommunity
 		/// </summary>
 		/// <param name="context">Current Context</param>
 		/// <returns></returns>
+		[DebuggerStepThrough]
 		public static string GetCfgdbFile(this UnconstrainedContext context)
 		{
 			try
